@@ -25,7 +25,7 @@ public class CalendarController {
 	}
 	
 	@RequestMapping(params="method=maintest")
-	public String getCalendar(Abc abc,HttpServletRequest request) throws Exception{
+	public String getCalendar(Abc abc,HttpServletRequest request,HttpSession session) throws Exception{
 		
 		int[] result = calendarService.getCalendar();
 		abc.setYear(result[0]);
@@ -34,6 +34,21 @@ public class CalendarController {
 		abc.setLastDay(result[3]);
 		request.setAttribute("abc", abc);
 		
+	
 		return "main2";
+	}
+	@RequestMapping(params="method=test")
+	public String getInputForm(Abc abc,HttpServletRequest request,HttpSession session) throws Exception{
+			
+		abc.setDate(Integer.parseInt(request.getParameter("date")));
+		abc.setYear(Integer.parseInt(request.getParameter("year")));
+		abc.setMonth(Integer.parseInt(request.getParameter("month")));
+		
+		return "insertForm";
+	}
+	@RequestMapping(params="method=insert")
+	public String insert(Abc abc,HttpServletRequest request,HttpSession session) throws Exception{
+		calendarService.insert();
+		return "";
 	}
 }

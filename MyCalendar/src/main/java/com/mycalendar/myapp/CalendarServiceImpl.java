@@ -24,4 +24,10 @@ public class CalendarServiceImpl implements CalendarService {
 		return firstday;
 	}
 
+	@Override
+	public void insert() {
+		calendarDAO.insert();
+		
+	}
+
 }

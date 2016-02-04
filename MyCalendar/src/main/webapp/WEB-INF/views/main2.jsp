@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ page import="com.mycalendar.myapp.Abc" %>
+<%@ page import="com.mycalendar.myapp.UserVO" %>
 <%@ page import="java.util.ArrayList" %>
 <% 
 	Abc abc=(Abc)request.getAttribute("abc");
@@ -9,7 +10,7 @@
 	int year=abc.getYear();
 	int month=abc.getMonth();
 	int cnt=0;	
-	
+	UserVO userVO = (UserVO)session.getAttribute("vo");
 %>
 
 <!DOCTYPE html>
@@ -20,44 +21,46 @@
 <title>Insert title here</title>
 <style>
 #body{
-	width:100%;
-	height:100%;
-	display:flex;
+	width:99%;
+	height:99%;
+	margin:0px auto;
+	padding:0px;
+	display: flex;
 }
 #container{
 	width : 70%;
 	height: 99%;
 	border: solid black;
+	margin: 0px auto;
 	align-content: center;
-	flex:1;	
+	flex=1;
 }
 #wrap { 
 	width : 29%;
 	height: 99%;
 	border: solid black;
-	margin : 1px;
-	float : left;
-	flex:1;
+	margin : 0px auto;
+	flex=1;
 }
 
 #info{
 	margin : 1px;
 	border : solid blue;
-	width : 99%;
+	width : 98%;
 	height : 100px;
 	
 }
 #mini{
 	margin : 1px;
 	border : solid blue;
-	width : 99%;
+	width : 98%;
 	height : 100px;
 }
 #detail{
 	margin : 1px;
 	border : solid blue;
 	width : 99%;
-	height: 500px;
+	height: 100%;
 }
 #calendar{		
 	height : 100%;
@@ -88,10 +91,6 @@
 	font-size: 19px;
 	text-align: center;
 	margin : auto;
-}
-p {
-	text-align: right;
-	margin:0px;
 }
 .day_red{
 	color: red;
@@ -159,7 +158,7 @@ a {
 	<%	
 		  };
 	%>
-		<div class=date><p><a href="#"><%=j %></p></a></div>
+		<div class=date><a class="day" href="#"><%=j %></a></div>
 	<% 	
 	  	cnt++; 
 	  }
@@ -167,23 +166,32 @@ a {
 	 %>
 	 	<div class=day_blank>공백</div>
 	 	<%} %>
+	 	<form id="vo">
+	 	<input type="hidden" name="year" value="<%=year%>">
+	 	</form>
 	 </div>
 </div>
 <div id="wrap">	
-	<div id="info">님 환영합니다.^^</div>
-	<div id="mini"><input type="date"></div>
+	<div id="info"><%=userVO.getName() %>님 환영합니다.^^</div>
+	<div id="mini">여기다가 뭘넣을까</div>
 	<div id="detail"></div>
 </div>
 </div>
 
 <script>
-$(document).ready(function(){
-    $("a").click(function(){
-        $.get("header.jsp", function(data, status){
-          $("#detail").append("<b>11</b>")
-        });
-    });
+$(function(){
+$('.day').bind('click',function(){
+	var month = $('#month').text();
+	var year = $('#year').text();
+	var date = $(this).text();
+	
+	$.post('calendar.do?method=test',
+		{year: year, month:month, date:date},
+		function(data){
+			$('#detail').html(data);
+		});
 });
+})
 </script>
 </body>
 </html>

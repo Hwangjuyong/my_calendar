@@ -5,6 +5,7 @@ public class Abc {
 	int month;
 	int lastDay;
 	int firstDate;
+	int date;
 	public int getYear() {
 		return year;
 	}
@@ -28,5 +29,11 @@ public class Abc {
 	}
 	public void setFirstDate(int firstDate) {
 		this.firstDate = firstDate;
+	}
+	public int getDate() {
+		return date;
+	}
+	public void setDate(int date) {
+		this.date = date;
 	}
 }

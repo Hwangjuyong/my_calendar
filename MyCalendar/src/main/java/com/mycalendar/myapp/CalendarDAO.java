@@ -79,4 +79,8 @@ public class CalendarDAO {
 			result[3]=lastDay;
 			return result;
 		}
+		public void insert(){
+			
+			
+		}
 }
