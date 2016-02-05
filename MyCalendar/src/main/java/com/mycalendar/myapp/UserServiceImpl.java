@@ -13,7 +13,7 @@ public class UserServiceImpl implements UserService {
 	public UserVO login(UserVO userVO) throws Exception {
 		
 		try{
-			System.out.println("dd");
+			
 			UserVO vo = userDAO.login(userVO);
 			return vo;
 		}

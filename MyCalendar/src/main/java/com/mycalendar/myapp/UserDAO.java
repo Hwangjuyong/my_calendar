@@ -23,7 +23,7 @@ public class UserDAO {
 			stmt.setString(2, userVO.getPassword());
 			
 			rs=stmt.executeQuery();
-			System.out.println("ee"+userVO.getId());
+			
 			if(rs.next()){
 				vo = new UserVO();
 				vo.setId(rs.getString("ID"));

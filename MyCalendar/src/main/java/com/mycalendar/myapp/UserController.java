@@ -20,7 +20,7 @@ public class UserController {
 		if(vo != null){
 			session.setAttribute("vo", vo);
 			
-			return "redirect:/calendar.do?method=maintest";			
+			return "redirect:/schedule.do?method=main";			
 		} else {
 			return "loginForm";
 		}

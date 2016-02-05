@@ -1,58 +1,74 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-
+<%@ page import="com.mycalendar.myapp.CalendarVO" %>
+<%@ page import="com.mycalendar.myapp.ScheduleVO" %>
 <%@ page import="com.mycalendar.myapp.UserVO" %>
+<%@ page import="java.util.ArrayList" %>
 <% 
-	UserVO userVO = (UserVO) session.getAttribute("vo"); 
-		
+	ArrayList<ScheduleVO> list = (ArrayList<ScheduleVO>)request.getAttribute("list");
+	CalendarVO calendarVO=(CalendarVO)request.getAttribute("calendarVO");
+	int FIRST_DAY= calendarVO.getFirstDay();
+	int LAST_DATE=calendarVO.getLastDate();
+	int year=calendarVO.getYear();
+	int month=calendarVO.getMonth();
+	int cnt=0;	
+	UserVO userVO = (UserVO)session.getAttribute("vo");
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <style>
+#body{
+	width:99%;
+	height:99%;
+	margin:0px auto;
+	padding:0px;
+	display: flex;
+}
 #container{
 	width : 70%;
 	height: 99%;
 	border: solid black;
-	float : left;		
+	margin: 0px auto;
+	align-content: center;
+	flex=1;
 }
 #wrap { 
 	width : 29%;
 	height: 99%;
 	border: solid black;
-	margin : 1px;
-	float : left;
+	margin : 0px auto;
+	flex=1;
 }
 
 #info{
 	margin : 1px;
 	border : solid blue;
-	width : 99%;
+	width : 98%;
 	height : 100px;
 	
 }
 #mini{
 	margin : 1px;
 	border : solid blue;
-	width : 99%;
+	width : 98%;
 	height : 100px;
+}
+#detail{
+	margin : 1px;
+	border : solid blue;
+	width : 99%;
+	height: 100%;
 }
 #calendar{		
 	height : 100%;
 	margin : 1px auto;
 	border :1px dotted blue;
 	display : flex;
-}
-#detail{
-	float : left;
-	margin : 1px;
-	border : solid blue;
-	width : 99%;
-	height: 500px;
 }
 .clear{
 	clear:both;
@@ -70,17 +86,13 @@
 	
 }
 .day_blank, .date{
-	height: 120px;
+	height: 130px
 }
 
 .first_line{
 	font-size: 19px;
 	text-align: center;
 	margin : auto;
-}
-p {
-	text-align: right;
-	margin:0px;
 }
 .day_red{
 	color: red;
@@ -93,99 +105,113 @@ p {
 }
 #header{
 	width:99%;
-	height:50px;
+	height:100px;	
 	border: 1px solid skyblue;
-	margin: 1px auto;
-}
-#month, #year, #link{
-	float: left;
-	padding-left:3px;
+	display: flex;	
+	margin: 1px auto;	
+	align-items: center;
 }
 .week{
 	border : 1px solid pink;
 	width : 99%;
-	margin: 1px auto;
-	height:50px;
+	margin: 1px auto;	
 	align-items: center;
 	display:flex;
 }
-</style>
-<script>
-function showCalendar(){
-	var div=document.getElementById("container");
-	var str='';
-	var FIRST_DAY=<%=request.getParameter("firstDate")%>;
-	var year =<%=request.getParameter("year")%>;
-	var month = <%=request.getParameter("t_month")%>;
-	var DAY_OF_WEEK = 7;
-	var LAST_DATE = 31;
-	var cnt=0;
-	var next_month = month+1;
-	var prev_month = month-1;
-	
-	str +="<div id='header'><div id='month'>";
-	str += month; // 월 데이터 받기
-	str +="</div><div id='year'>";
-	str += year;//년 데이터 받기
-	str +="</div><div id='link'><a href=";
-	str +="'calendar.do?method=main&month="+next_month;
-	str +="&year="+year+"'>이전</a><a href=";//#에 get방식 이전달 전송
-	str +="'#'>다음</a><a href=";//#에 get방식 다음달 전송
-	str +="'#'>오늘</a></div></div><div class=clear></div>";//#에 오늘날짜 전송	
-	
-	str +="<div class='week'>";
-	str += "<div class='day_red'><p class='first_line'>Sun</p></div>";
-	str += "<div class='day_black'><p class='first_line'>Mon</p></div>";
-	str += "<div class='day_black'><p class='first_line'>Tue</p></div>";
-	str += "<div class='day_black'><p class='first_line'>Wed</p></div>";
-	str += "<div class='day_black'><p class='first_line'>Thu</p></div>";
-	str += "<div class='day_black'><p class='first_line'>Fri</p></div>";
-	str += "<div class='day_blue'><p class='first_line'>Sat</p></div>";	
-	str +="</div><div class=clear></div>";
-	
-	str += "<div id=calendar>";
-	str += "<div class='day_red'><p class='first_line'>Sun</p></div>";
-	str += "<div class='day_black'><p class='first_line'>Mon</p></div>";
-	str += "<div class='day_black'><p class='first_line'>Tue</p></div>";
-	str += "<div class='day_black'><p class='first_line'>Wed</p></div>";
-	str += "<div class='day_black'><p class='first_line'>Thu</p></div>";
-	str += "<div class='day_black'><p class='first_line'>Fri</p></div>";
-	str += "<div class='day_blue'><p class='first_line'>Sat</p></div><div class=clear></div>";
-	
-	for(var i=0; i<FIRST_DAY;i++){
-		str+="<div class=day_blank>"+"공백"+"</div>";
-		cnt++;
-	}
-	for(var i=1;i<=LAST_DATE;i++){
-		
-		if(cnt%7 == 0){
-			str+="<div class=clear></div>";
-		}
-		str+="<div class=date><p>"+i+"</p></div>";
-		cnt++;
-	}
-	str += "</div>";
-	div.innerHTML = str;
+#month, #year, #button{
+	flex: 1;
+	border: 1px solid red;
 }
-</script>
+a {
+	text-decoration:none;
+	color: black;
+}
+</style>
 </head>
-<body onload="showCalendar();">
-<div id="container">	
+<body>
+<div id="body">
+<div id="container">
+	<div id="header">
+		<div id="month"><%=month %></div>
+		<div id="year"><%=year %></div>
+		<div id="button"><a href="#">이전</a><a href="#">다음</a><a href="#">오늘</a></div>
+	</div>
+	<div class="clear"></div>
+	<div class="week">
+		<div class='day_red'><p class="first_line">Sun</p></div>
+		<div class="day_black"><p class="first_line">Mon</p></div>
+		<div class="day_black"><p class="first_line">Tue</p></div>
+		<div class="day_black"><p class="first_line">Wed</p></div>
+		<div class="day_black"><p class="first_line">Thu</p></div>
+		<div class="day_black"><p class="first_line">Fri</p></div>
+		<div class="day_blue"><p class="first_line">Sat</p></div>	
+	</div>
+	<div class=clear></div>
 	
+	<div class="week">
+	<%for(int i=0; i<FIRST_DAY;i++){ %>
+	<div class=day_blank>공백</div>
+	<%	cnt++;
+	}
+	  for(int j=1; j<=LAST_DATE;j++){
+		  if(cnt%7 == 0 ){
+	%>
+		</div><div class=week>
+	<%	
+		  };
+	%>
+		<div class=date><a class="day" href="#"><%=j %></a>
+		<%for(int p=0;p<list.size();p++){
+			ScheduleVO scheduleVO = list.get(p);
+			if(scheduleVO.getS_date()==j){
+		%>
+		<p><%=scheduleVO.getSubject() %></p>
+		<%
+			}
+		}
+		%>
+		</div>
+	<% 	
+	  	cnt++; 
+	  }
+	  for(int k=6; k>=FIRST_DAY+LAST_DATE%7;k--){
+	 %>
+	 	<div class=day_blank>공백</div>
+	 	<%} %>
+	 	<form id="vo">
+	 	<input type="hidden" name="year" value="<%=year%>">
+	 	</form>
+	 </div>
 </div>
 <div id="wrap">	
 	<div id="info"><%=userVO.getName() %>님 환영합니다.^^</div>
-	<div id="mini"><input type="date"></div>
-	<div id="detail">
-		<form>
-		<table>
-			<tr>
-				<td></td>
-			</tr>
-		
-		</table>
-		</form>
+	<div id="mini">
+	<%for(int i=0;i<list.size();i++){
+		ScheduleVO scheduleVO = list.get(i);
+	%>
+	<p><%=scheduleVO.getSubject() %></p>
+	<%
+	}
+	%>
 	</div>
+	<div id="detail"></div>
 </div>
+</div>
+
+<script>
+$(function(){
+$('.day').bind('click',function(){
+	var month = $('#month').text();
+	var year = $('#year').text();
+	var date = $(this).text();
+	
+	$.post('schedule.do?method=insertForm',
+		{year: year, month:month, date:date},
+		function(data){
+			$('#detail').html(data);
+		});
+});
+})
+</script>
 </body>
 </html>
