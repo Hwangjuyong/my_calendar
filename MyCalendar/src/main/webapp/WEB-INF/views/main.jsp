@@ -75,7 +75,7 @@
 	padding: 0px;
 	margin: 0px;
 }
-.day_red, .day_blank,.day_black, .day_blue, .date{
+.day_red, .day_black, .day_blue, .date{
 	float:left;
 	flex:1;
 	border: 1px solid skyblue;
@@ -85,7 +85,7 @@
 	height: 30px;
 	
 }
-.day_blank, .date{
+.date{
 	height: 130px
 }
 
@@ -126,6 +126,12 @@ a {
 	text-decoration:none;
 	color: black;
 }
+.date:nth-child(1) {
+    background: #FFD8D8;
+}
+.date:nth-child(7) {
+    background: #D9E5FF;
+}
 </style>
 </head>
 <body>
@@ -150,7 +156,7 @@ a {
 	
 	<div class="week">
 	<%for(int i=0; i<FIRST_DAY;i++){ %>
-	<div class=day_blank>공백</div>
+	<div class=date>공백</div>
 	<%	cnt++;
 	}
 	  for(int j=1; j<=LAST_DATE;j++){
@@ -161,22 +167,26 @@ a {
 		  };
 	%>
 		<div class=date><a class="day" href="#"><%=j %></a>
+		<ul>
 		<%for(int p=0;p<list.size();p++){
 			ScheduleVO scheduleVO = list.get(p);
 			if(scheduleVO.getS_date()==j){
 		%>
-		<p><%=scheduleVO.getSubject() %></p>
+		<li><a href="#" class="schedule"><%=scheduleVO.getSubject() %>
+		<input type="hidden" value="<%=scheduleVO.getContent_id()%>">
+		</a></li>
 		<%
 			}
 		}
 		%>
+		</ul>
 		</div>
 	<% 	
 	  	cnt++; 
 	  }
 	  for(int k=6; k>=FIRST_DAY+LAST_DATE%7;k--){
 	 %>
-	 	<div class=day_blank>공백</div>
+	 	<div class=date>공백</div>
 	 	<%} %>
 	 	<form id="vo">
 	 	<input type="hidden" name="year" value="<%=year%>">
@@ -189,7 +199,7 @@ a {
 	<%for(int i=0;i<list.size();i++){
 		ScheduleVO scheduleVO = list.get(i);
 	%>
-	<p><%=scheduleVO.getSubject() %></p>
+	<a><%=scheduleVO.getSubject() %></a>
 	<%
 	}
 	%>
@@ -211,7 +221,18 @@ $('.day').bind('click',function(){
 			$('#detail').html(data);
 		});
 });
+$('.schedule').bind('click',function(){	
+	var content_id = $(this).children(':first').val();
+		
+	$.post('schedule.do?method=detail',
+		{content_id:content_id},
+		function(data){
+			$('#detail').html(data);
+		});
+});
+
 })
+
 </script>
 </body>
 </html>

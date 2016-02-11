@@ -39,6 +39,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 		
 	}
 
+	@Override
+	public ScheduleVO getDetail(String content_id) {
+		
+		ScheduleVO scheduleVO = null;
+		scheduleVO = ScheduleDAO.getDetail(content_id);
+		
+		return scheduleVO;
+	}
+
 	
 
 	

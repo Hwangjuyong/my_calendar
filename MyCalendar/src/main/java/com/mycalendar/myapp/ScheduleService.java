@@ -7,4 +7,5 @@ public interface ScheduleService {
 	public CalendarVO getCalendar();
 	public void addSchedule(ScheduleVO scheduleVO);
 	public ArrayList<ScheduleVO> getScheduleList(CalendarVO calendarVO, String id);
+	public ScheduleVO getDetail(String content_id);
 }

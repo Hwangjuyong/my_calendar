@@ -18,11 +18,14 @@ public class ScheduleDAO {
 		
 		private final String ADD_SCHEDULE
 		="insert into calendar_ex "
-				+ "values(?,?,?,?,0,?,?,?,?,?,?,?,?,?,?)";
+				+ "values(?,?,?,?,0,?,?,?,?,?,?,?,?,?,?, TO_CHAR(schedule_seq.nextval))";
 		
 		private final String GET_MONTH_SCHEDULE
 		="select * from calendar_ex "
 				+"where id=? and s_year=? and s_month=? order by s_date";
+		
+		private final String GET_DETAIL
+		="select * from calendar_ex where content_id=?";
 				
 //오늘자 첫 요일의 값을 반환
 		public CalendarVO getCalendarData(CalendarVO vo){
@@ -122,6 +125,7 @@ public class ScheduleDAO {
 				stmt.setString(13, scheduleVO.getCategory());
 				stmt.setString(14, scheduleVO.getRepetition());
 				
+				
 				stmt.executeUpdate();
 			}catch(Exception e){
 				e.printStackTrace();
@@ -142,11 +146,8 @@ public class ScheduleDAO {
 				
 				stmt.setString(1, id);
 				stmt.setInt(2, vo.getYear());
-				stmt.setInt(3, vo.getMonth());
+				stmt.setInt(3, vo.getMonth());				
 				
-				System.out.println("테스트:"+id);
-				System.out.println("테스트:"+vo.getYear());
-				System.out.println("테스트:"+vo.getMonth());
 				rs = stmt.executeQuery();
 				
 				while(rs.next()){
@@ -155,7 +156,7 @@ public class ScheduleDAO {
 					scheduleVO.setSubject(rs.getString("SUBJECT"));
 					scheduleVO.setStartTime(rs.getString("STARTTIME"));
 					scheduleVO.setS_date(rs.getInt("S_DATE"));
-					
+					scheduleVO.setContent_id(rs.getString("CONTENT_ID"));
 					scheduleList.add(scheduleVO);
 				}
 				
@@ -168,5 +169,45 @@ public class ScheduleDAO {
 			}
 			return scheduleList;
 			
+		}
+		public ScheduleVO getDetail(String content_id) {
+			ScheduleVO scheduleVO = null;
+			
+			try{
+				conn = JDBCUtil.getConnection();
+				stmt = conn.prepareStatement(GET_DETAIL);
+				stmt.setString(1, content_id);				
+				
+				rs=stmt.executeQuery();
+				
+				while(rs.next()){
+					scheduleVO = new ScheduleVO();
+					
+					scheduleVO.setStartTime(rs.getString("starttime"));
+					scheduleVO.setEndTime(rs.getString("endtime"));
+					scheduleVO.setAllday(rs.getString("allday"));
+					scheduleVO.setSubject(rs.getString("SUBJECT"));
+					scheduleVO.setContent(rs.getString("content"));
+					scheduleVO.setS_year(rs.getInt("s_year"));
+					scheduleVO.setS_year(rs.getInt("s_year"));
+					scheduleVO.setS_month(rs.getInt("s_month"));
+					scheduleVO.setS_date(rs.getInt("s_date"));
+					scheduleVO.setE_year(rs.getInt("e_year"));
+					scheduleVO.setE_month(rs.getInt("e_month"));
+					scheduleVO.setE_date(rs.getInt("e_date"));
+					scheduleVO.setCategory(rs.getString("category"));
+					scheduleVO.setRepetition(rs.getString("repetition"));
+					scheduleVO.setContent_id(content_id);
+				}
+				
+				
+			}catch(Exception e){
+				e.printStackTrace();
+				
+			}finally{
+				JDBCUtil.closeResource(stmt, conn);
+			}
+						
+			return scheduleVO;
 		}
 }

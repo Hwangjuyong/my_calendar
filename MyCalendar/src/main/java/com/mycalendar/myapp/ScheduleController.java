@@ -40,6 +40,19 @@ public class ScheduleController {
 		
 		return "insertForm";
 	}
+	
+	@RequestMapping(params="method=detail")
+	public String getDetail(HttpServletRequest request,HttpSession session) throws Exception{
+		
+		ScheduleVO scheduleVO = null;
+		
+		String content_id = request.getParameter("content_id");
+		scheduleVO = scheduleService.getDetail(content_id);
+		
+		request.setAttribute("scheduleVO", scheduleVO);
+		return "detail";
+	}
+	
 	@RequestMapping(params="method=addSchedule")
 	public String addSchedule(ScheduleVO scheduleVO,HttpSession session) throws Exception{
 		try{

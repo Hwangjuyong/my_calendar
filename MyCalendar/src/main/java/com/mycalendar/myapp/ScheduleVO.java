@@ -16,6 +16,7 @@ public class ScheduleVO {
 	int e_date;
 	String category;
 	String repetition;
+	String content_id;
 	public String getId() {
 		return id;
 	}
@@ -105,5 +106,11 @@ public class ScheduleVO {
 	}
 	public void setRepetition(String repetition) {
 		this.repetition = repetition;
+	}
+	public String getContent_id() {
+		return content_id;
+	}
+	public void setContent_id(String content_id) {
+		this.content_id = content_id;
 	}
 	}
