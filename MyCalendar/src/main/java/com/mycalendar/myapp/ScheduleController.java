@@ -18,11 +18,16 @@ public class ScheduleController {
 	private ScheduleService scheduleService;
 			
 	@RequestMapping(params="method=main")
-	public String getCalendar(Model model, CalendarVO vo, HttpServletRequest request,HttpSession session) throws Exception{
-		CalendarVO calendarVO = null;	
+	public String getCalendar(Model model, CalendarVO calendarVO, HttpServletRequest request,HttpSession session) throws Exception{
 		
-		calendarVO = scheduleService.getCalendar();
 		
+		if(request.getParameter("showYear")==null||Integer.parseInt(request.getParameter("showYear"))==0){
+			calendarVO = scheduleService.getCalendar();
+		} else{
+			int year=Integer.parseInt(request.getParameter("showYear"));
+			int month=Integer.parseInt(request.getParameter("showMonth"));
+			calendarVO= scheduleService.getCalendar(year, month);
+		}
 		model.addAttribute("calendarVO", calendarVO);
 		UserVO userVO = (UserVO)session.getAttribute("vo");
 		String id = userVO.getId();
@@ -31,6 +36,7 @@ public class ScheduleController {
 	
 		return "main";
 	}
+	
 	@RequestMapping(params="method=insertForm")
 	public String getInputForm(CalendarVO calendarVO,HttpServletRequest request,HttpSession session) throws Exception{
 			
@@ -55,14 +61,18 @@ public class ScheduleController {
 	
 	@RequestMapping(params="method=addSchedule")
 	public String addSchedule(ScheduleVO scheduleVO,HttpSession session) throws Exception{
-		try{
-			scheduleService.addSchedule(scheduleVO);
-			
-			
-			return "main";
-		} catch(Exception e){
-			
-			return "insertForm";
-		}
+		
+		scheduleService.addSchedule(scheduleVO);
+						
+		return "redirect:/schedule.do?method=main";
+		
+	}@RequestMapping(params="method=deleteSchedule")
+	public String deleteSchedule(HttpServletRequest request,HttpSession session) throws Exception{
+		
+		String content_id = request.getParameter("content_id");
+		scheduleService.deleteSchedule(content_id);
+						
+		return "redirect:/schedule.do?method=main";
+		
 	}
 }

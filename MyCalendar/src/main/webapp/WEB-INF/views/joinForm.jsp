@@ -24,12 +24,24 @@ table{
 }
 
 h2, td { text-align: center; color: #fefefe; font-weight: normal; }
+
+tr{
+	width: 110px;
+	font-size: 15px;
+}
 a{
 	text-decoration: none;
 	color: white;
+	font-size: 20px;
 }
-tr{
-	width: 110px;
+td{
+	height: 40px;
+	font-size: 15px;
+}
+input{
+	height: 35px;
+	font-size: 15px;
+	padding:0px;
 }
 </style>
 

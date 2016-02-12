@@ -9,6 +9,7 @@ import java.util.Calendar;
 import org.springframework.stereotype.Component;
 
 
+
 @Component
 public class ScheduleDAO {
 
@@ -26,16 +27,17 @@ public class ScheduleDAO {
 		
 		private final String GET_DETAIL
 		="select * from calendar_ex where content_id=?";
+		
+		private final String DELETE_SCHEDULE
+		="delete from calendar_ex where content_id=?";
 				
 //오늘자 첫 요일의 값을 반환
-		public CalendarVO getCalendarData(CalendarVO vo){
+		public CalendarVO getCalendarData(int year, int month){
 			
 			CalendarVO calendarVO= new CalendarVO();
 			int firstDay = 0;			
 			int lastDate = 0;
 			int i = 0;
-			int year = vo.getYear();
-			int month = vo.getMonth();
 			int total1 = 365*(year-1)+(year-1)/4-(year-1)/100+(year-1)/400;
 			//1년 1월부터 y년 m-1월까지의 총날짜
 			int total2=0;
@@ -209,5 +211,17 @@ public class ScheduleDAO {
 			}
 						
 			return scheduleVO;
+		}
+		public void deleteSchedule(String content_id){
+			try{
+				conn = JDBCUtil.getConnection();
+				stmt = conn.prepareStatement(DELETE_SCHEDULE);
+				stmt.setString(1, content_id);
+				stmt.executeUpdate();
+			}catch (Exception e){
+				e.printStackTrace();
+			}finally{
+				JDBCUtil.closeResource(stmt, conn);
+			}
 		}
 }

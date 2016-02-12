@@ -24,12 +24,24 @@ table{
 }
 
 h2, td { text-align: center; color: #fefefe; font-weight: normal; }
+
 a{
 	text-decoration: none;
 	color: white;
+	font-size: 20px;
 }
 tr{
 	width: 110px;
+	font-size: 15px;
+}
+td{
+	height: 45px;
+	font-size: 15px;
+}
+input{
+	height: 40px;
+	font-size: 15px;
+	padding:0px;
 }
 </style>
 
@@ -43,11 +55,11 @@ tr{
 		</tr>
 		<tr>
 			<td>id</td>
-			<td><input type="text" name="id"></td>
+			<td><input placeholder="이메일 주소" size="30" type="email" name="id" autofocus="autofocus"></td>
 		</tr>
 		<tr>
 			<td>pw</td>
-			<td><input type="password" name="password"></td>
+			<td><input type="password" placeholder="비밀번호" size="30" name="password"></td>
 		</tr>
 		<tr>
 			<td colspan="2"><a href="javascript:loginform.submit();">login</a></td>			

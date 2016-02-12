@@ -32,7 +32,6 @@
 #container{
 	width : 70%;
 	height: 99%;
-	border: solid black;
 	margin: 0px auto;
 	align-content: center;
 	flex=1;
@@ -40,17 +39,14 @@
 #wrap { 
 	width : 29%;
 	height: 99%;
-	border: solid black;
 	margin : 0px auto;
 	flex=1;
 }
-
 #info{
 	margin : 1px;
 	border : solid blue;
 	width : 98%;
-	height : 100px;
-	
+	height : 100px;	
 }
 #mini{
 	margin : 1px;
@@ -61,7 +57,7 @@
 #detail{
 	margin : 1px;
 	border : solid blue;
-	width : 99%;
+	width : 98%;
 	height: 100%;
 }
 #calendar{		
@@ -70,6 +66,7 @@
 	border :1px dotted blue;
 	display : flex;
 }
+
 .clear{
 	clear:both;
 	padding: 0px;
@@ -82,11 +79,11 @@
 	margin: 1px;
 }
 .day_red, .day_black, .day_blue{	
-	height: 30px;
+	height: 25px;
 	
 }
 .date{
-	height: 130px
+	height: 120px
 }
 
 .first_line{
@@ -105,7 +102,7 @@
 }
 #header{
 	width:99%;
-	height:100px;	
+	height:80px;	
 	border: 1px solid skyblue;
 	display: flex;	
 	margin: 1px auto;	
@@ -118,19 +115,50 @@
 	align-items: center;
 	display:flex;
 }
-#month, #year, #button{
-	flex: 1;
-	border: 1px solid red;
+.button{
+	flex: 1;	
+}
+.button{
+	display: flex;
 }
 a {
 	text-decoration:none;
 	color: black;
 }
 .date:nth-child(1) {
-    background: #FFD8D8;
+    background: #FFEAEA;
 }
 .date:nth-child(7) {
-    background: #D9E5FF;
+    background: #EBF7FF;
+}
+.prev, .next{
+	float:left;
+}
+.prev, .next, .today{
+	flex: 1;
+	border: 1px dotted pink;
+	text-align: center;
+	font-size:19px;
+}
+#month{
+	flex:1;
+	text-align : center;
+	font-size: 65px;
+}
+#year{
+	flex:1;
+	font-size:38px;
+	text-align : center;
+	padding-top:5%;
+}
+.box{
+	list-style-type:none;
+	margin:2px;
+	padding-left:2px;	
+}
+.box li{
+	background-color:#FAEBFF;
+	margin:2px;
 }
 </style>
 </head>
@@ -138,9 +166,20 @@ a {
 <div id="body">
 <div id="container">
 	<div id="header">
-		<div id="month"><%=month %></div>
-		<div id="year"><%=year %></div>
-		<div id="button"><a href="#">이전</a><a href="#">다음</a><a href="#">오늘</a></div>
+		<div class="button">
+			<div class="prev"><a href="#">month</a></div>
+			<div class="next"><a href="#">week</a></div>
+			<div class="today"><a href="#">today</a></div>
+		</div>
+		<div class="button">
+			<div id="month"><%=month %></div>
+			<div id="year"><%=year %></div>
+		</div>
+		<div class="button">
+			<div class="prev"><a href="schedule.do?method=main&showYear=<%=year%>&showMonth=<%=month-1%>">이전</a></div>
+			<div class="next"><a href="schedule.do?method=main&showYear=<%=year%>&showMonth=<%=month+1%>">다음</a></div>
+			<div class="today"><a href="schedule.do?method=main&showYear=0">오늘</a></div>				
+		</div>
 	</div>
 	<div class="clear"></div>
 	<div class="week">
@@ -156,7 +195,7 @@ a {
 	
 	<div class="week">
 	<%for(int i=0; i<FIRST_DAY;i++){ %>
-	<div class=date>공백</div>
+	<div class=date></div>
 	<%	cnt++;
 	}
 	  for(int j=1; j<=LAST_DATE;j++){
@@ -167,14 +206,14 @@ a {
 		  };
 	%>
 		<div class=date><a class="day" href="#"><%=j %></a>
-		<ul>
-		<%for(int p=0;p<list.size();p++){
+		<ul class="box">
+		<% for(int p=0;p<list.size();p++){
 			ScheduleVO scheduleVO = list.get(p);
 			if(scheduleVO.getS_date()==j){
 		%>
-		<li><a href="#" class="schedule"><%=scheduleVO.getSubject() %>
+		<li><%=scheduleVO.getSubject() %>
 		<input type="hidden" value="<%=scheduleVO.getContent_id()%>">
-		</a></li>
+		</li>
 		<%
 			}
 		}
@@ -184,9 +223,13 @@ a {
 	<% 	
 	  	cnt++; 
 	  }
-	  for(int k=6; k>=FIRST_DAY+LAST_DATE%7;k--){
+	  int last = FIRST_DAY+LAST_DATE%7;
+	  if(last>=8){
+		  last = (FIRST_DAY+LAST_DATE%7)%8+1;
+	  }
+	  for(int k=6; k>=last;k--){
 	 %>
-	 	<div class=date>공백</div>
+	 	<div class=date></div>
 	 	<%} %>
 	 	<form id="vo">
 	 	<input type="hidden" name="year" value="<%=year%>">
@@ -221,16 +264,19 @@ $('.day').bind('click',function(){
 			$('#detail').html(data);
 		});
 });
-$('.schedule').bind('click',function(){	
-	var content_id = $(this).children(':first').val();
-		
-	$.post('schedule.do?method=detail',
-		{content_id:content_id},
-		function(data){
-			$('#detail').html(data);
-		});
-});
-
+$('.box li').bind({
+	mouseenter:function(){
+		$(this).css('cursor','pointer');
+	},
+	click:function(){
+		var content_id = $(this).children(':first').val();
+				
+		$.post('schedule.do?method=detail',
+				{content_id:content_id},
+				function(data){
+					$('#detail').html(data);
+				});
+	}});
 })
 
 </script>
