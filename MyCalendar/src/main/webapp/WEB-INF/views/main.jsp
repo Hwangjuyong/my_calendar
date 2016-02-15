@@ -44,26 +44,26 @@
 }
 #info{
 	margin : 1px;
-	border : solid blue;
+	border : 1px solid skyblue;
 	width : 98%;
 	height : 100px;	
 }
 #mini{
 	margin : 1px;
-	border : solid blue;
+	border : 1px solid skyblue;
 	width : 98%;
 	height : 100px;
 }
 #detail{
 	margin : 1px;
-	border : solid blue;
+	border : 1px solid skyblue;
 	width : 98%;
 	height: 100%;
 }
 #calendar{		
 	height : 100%;
 	margin : 1px auto;
-	border :1px dotted blue;
+	border :1px dotted skyblue;
 	display : flex;
 }
 
@@ -101,7 +101,7 @@
 	color: blue;
 }
 #header{
-	width:99%;
+	width:98.6%;
 	height:80px;	
 	border: 1px solid skyblue;
 	display: flex;	
@@ -109,16 +109,13 @@
 	align-items: center;
 }
 .week{
-	border : 1px solid pink;
 	width : 99%;
 	margin: 1px auto;	
 	align-items: center;
 	display:flex;
 }
-.button{
-	flex: 1;	
-}
-.button{
+.button_container{
+	flex: 1;
 	display: flex;
 }
 a {
@@ -131,10 +128,8 @@ a {
 .date:nth-child(7) {
     background: #EBF7FF;
 }
-.prev, .next{
+.button{
 	float:left;
-}
-.prev, .next, .today{
 	flex: 1;
 	border: 1px dotted pink;
 	text-align: center;
@@ -166,19 +161,19 @@ a {
 <div id="body">
 <div id="container">
 	<div id="header">
-		<div class="button">
-			<div class="prev"><a href="#">month</a></div>
-			<div class="next"><a href="#">week</a></div>
-			<div class="today"><a href="#">today</a></div>
+		<div class="button_container">
+			<div class="button"><a href="#">month</a></div>
+			<div class="button"><a href="#">week</a></div>
+			<div class="button"><a href="#">today</a></div>
 		</div>
-		<div class="button">
+		<div class="button_container">
 			<div id="month"><%=month %></div>
 			<div id="year"><%=year %></div>
 		</div>
-		<div class="button">
-			<div class="prev"><a href="schedule.do?method=main&showYear=<%=year%>&showMonth=<%=month-1%>">이전</a></div>
-			<div class="next"><a href="schedule.do?method=main&showYear=<%=year%>&showMonth=<%=month+1%>">다음</a></div>
-			<div class="today"><a href="schedule.do?method=main&showYear=0">오늘</a></div>				
+		<div class="button_container">
+			<div class="button"><input type="hidden" value="schedule.do?method=main&showYear=<%=year%>&showMonth=<%=month-1%>">이전</div>
+			<div class="button"><input type="hidden" value="schedule.do?method=main&showYear=<%=year%>&showMonth=<%=month+1%>">다음</div>
+			<div class="button"><input type="hidden" value="schedule.do?method=main&showYear=0">오늘</div>				
 		</div>
 	</div>
 	<div class="clear"></div>
@@ -277,6 +272,24 @@ $('.box li').bind({
 					$('#detail').html(data);
 				});
 	}});
+$('.button').bind({
+	mouseenter:function(){
+		$(this).css({'cursor':'pointer',
+		'background-color':'#E4F7BA',
+		'border':'1px solid #ABF200'
+		});		
+	},
+	mouseout:function(){
+		$(this).css({'cursor':'default',
+			'background-color':'white',
+			'border':'1px dotted pink'
+			});
+	},
+	click:function(){
+		var url = $(this).children(':first').val();
+		location.href =	url;
+	}
+})
 })
 
 </script>

@@ -34,6 +34,15 @@ public class ScheduleDAO {
 //오늘자 첫 요일의 값을 반환
 		public CalendarVO getCalendarData(int year, int month){
 			
+			if(month == 13){
+				year = year+1;
+				month = 1;
+			}
+			if(month == 0){
+				year = year-1;
+				month = 12;
+			}
+			
 			CalendarVO calendarVO= new CalendarVO();
 			int firstDay = 0;			
 			int lastDate = 0;
