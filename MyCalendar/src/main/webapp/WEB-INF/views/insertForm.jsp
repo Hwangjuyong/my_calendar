@@ -66,23 +66,97 @@ textarea{
 			<td>일정</td>
 			<td><select name="startTime">
 			<%
-				for(int i=0; i<13; i++){
-					
+				for(int i=0; i<12; i++){
+					String str1=null;
+					String str2=null;
 					String str=null;
-					str="AM0"+Integer.toString(i)+":00";
+					if(i>9){
+						str1 = "AM "; 
+					} else {
+						str1 = "AM 0";
+					}
+					
+					str2=Integer.toString(i)+":00";
+					str=str1+str2;
 			%>
 					<option value="<%=str%>"><%=str %></option>
-			<%		str="AM0"+Integer.toString(i)+":30";
+			<%		str2=Integer.toString(i)+":30";
+					str=str1+str2;
 			%>	
 					<option value="<%=str%>"><%=str %></option>
-			<%	}
+			<%				
+				}
 			%>
-			<option value="AM00:00">AM00:00</option>
-			<option value="오전00:30">오전00:30</option>
+				<%
+				for(int i=0; i<12; i++){
+					String str1=null;
+					String str2=null;
+					String str=null;
+					if(i>9){
+						str1 = "PM "; 
+					} else {
+						str1 = "PM 0";
+					}
+					
+					str2=Integer.toString(i)+":00";
+					str=str1+str2;
+			%>
+					<option value="<%=str%>"><%=str %></option>
+			<%		str2=Integer.toString(i)+":30";
+					str=str1+str2;
+			%>	
+					<option value="<%=str%>"><%=str %></option>
+			<%				
+				}
+			%>
+			
+			
 			</select>~
 			<select name="endTime">
-			<option value="오전00:00">오전00:00</option>
-			<option value="오전00:30">오전00:30</option>
+		<%
+				for(int i=0; i<12; i++){
+					String str1=null;
+					String str2=null;
+					String str=null;
+					if(i>9){
+						str1 = "AM "; 
+					} else {
+						str1 = "AM 0";
+					}
+					
+					str2=Integer.toString(i)+":00";
+					str=str1+str2;
+			%>
+					<option value="<%=str%>"><%=str %></option>
+			<%		str2=Integer.toString(i)+":30";
+					str=str1+str2;
+			%>	
+					<option value="<%=str%>"><%=str %></option>
+			<%				
+				}
+			%>
+				<%
+				for(int i=0; i<12; i++){
+					String str1=null;
+					String str2=null;
+					String str=null;
+					if(i>9){
+						str1 = "PM "; 
+					} else {
+						str1 = "PM 0";
+					}
+					
+					str2=Integer.toString(i)+":00";
+					str=str1+str2;
+			%>
+					<option value="<%=str%>"><%=str %></option>
+			<%		str2=Integer.toString(i)+":30";
+					str=str1+str2;
+			%>	
+					<option value="<%=str%>"><%=str %></option>
+			<%				
+				}
+			%>
 			</select>
 			&nbsp;<label for="allday">종일</label>
 			<input type="checkbox" name="allday" value="1">

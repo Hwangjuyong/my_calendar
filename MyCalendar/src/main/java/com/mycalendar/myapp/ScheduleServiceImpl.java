@@ -53,6 +53,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 		scheduleDAO.deleteSchedule(content_id);
 		
 	}
+
+	@Override
+	public ArrayList<HolidayVO> getHolidayList(CalendarVO calendarVO) {
+		
+		ArrayList<HolidayVO> holidayList=scheduleDAO.getHolidaySchedule(calendarVO);
+		return holidayList;
+	}
 	
 
 }

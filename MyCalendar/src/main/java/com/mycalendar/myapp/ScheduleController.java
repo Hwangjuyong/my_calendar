@@ -28,11 +28,15 @@ public class ScheduleController {
 			int month=Integer.parseInt(request.getParameter("showMonth"));
 			calendarVO= scheduleService.getCalendar(year, month);
 		}
+		ArrayList<HolidayVO> holidayList = scheduleService.getHolidayList(calendarVO);
 		model.addAttribute("calendarVO", calendarVO);
 		UserVO userVO = (UserVO)session.getAttribute("vo");
 		String id = userVO.getId();
 		ArrayList<ScheduleVO> list = scheduleService.getScheduleList(calendarVO, id);
 		model.addAttribute("list", list);
+		model.addAttribute("holidayList", holidayList);
+		
+		
 	
 		return "main";
 	}

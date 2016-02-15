@@ -6,6 +6,9 @@ public class CalendarVO {
 	int lastDate;
 	int firstDay;
 	int date;
+	int today;
+	int holiday;
+	
 	public int getYear() {
 		return year;
 	}
@@ -35,5 +38,17 @@ public class CalendarVO {
 	}
 	public void setDate(int date) {
 		this.date = date;
+	}
+	public int getToday() {
+		return today;
+	}
+	public void setToday(int today) {
+		this.today = today;
+	}
+	public int getHoliday() {
+		return holiday;
+	}
+	public void setHoliday(int holiday) {
+		this.holiday = holiday;
 	}
 }

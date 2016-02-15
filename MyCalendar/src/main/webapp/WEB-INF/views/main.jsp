@@ -3,10 +3,12 @@
 <%@ page import="com.mycalendar.myapp.CalendarVO" %>
 <%@ page import="com.mycalendar.myapp.ScheduleVO" %>
 <%@ page import="com.mycalendar.myapp.UserVO" %>
+<%@ page import="com.mycalendar.myapp.HolidayVO" %>
 <%@ page import="java.util.ArrayList" %>
 <% 
 	ArrayList<ScheduleVO> list = (ArrayList<ScheduleVO>)request.getAttribute("list");
 	CalendarVO calendarVO=(CalendarVO)request.getAttribute("calendarVO");
+	ArrayList<HolidayVO> holidayList = (ArrayList<HolidayVO>)request.getAttribute("holidayList");
 	int FIRST_DAY= calendarVO.getFirstDay();
 	int LAST_DATE=calendarVO.getLastDate();
 	int year=calendarVO.getYear();
@@ -44,26 +46,26 @@
 }
 #info{
 	margin : 1px;
-	border : 1px solid skyblue;
+	border : 1px solid #7F7F7F;
 	width : 98%;
 	height : 100px;	
 }
 #mini{
 	margin : 1px;
-	border : 1px solid skyblue;
+	border : 1px solid #7F7F7F;
 	width : 98%;
 	height : 100px;
 }
 #detail{
 	margin : 1px;
-	border : 1px solid skyblue;
+	border : 1px solid #7F7F7F;
 	width : 98%;
 	height: 100%;
 }
 #calendar{		
 	height : 100%;
 	margin : 1px auto;
-	border :1px dotted skyblue;
+	border :1px dotted #7F7F7F;
 	display : flex;
 }
 
@@ -72,18 +74,24 @@
 	padding: 0px;
 	margin: 0px;
 }
-.day_red, .day_black, .day_blue, .date{
+.day_red, .day_black, .day_blue, .date, .today, .date_not{
 	float:left;
 	flex:1;
-	border: 1px solid skyblue;
+	border: 1px solid #7F7F7F;
 	margin: 1px;
+}
+.date_not{
+	background-color:#EAEAEA;
 }
 .day_red, .day_black, .day_blue{	
 	height: 25px;
 	
 }
-.date{
-	height: 120px
+.date,.date_not, .today{
+	height: 120px;
+}
+.today{
+	background-color:#FFFFE4;
 }
 
 .first_line{
@@ -103,7 +111,7 @@
 #header{
 	width:98.6%;
 	height:80px;	
-	border: 1px solid skyblue;
+	border: 1px solid #7F7F7F;
 	display: flex;	
 	margin: 1px auto;	
 	align-items: center;
@@ -113,6 +121,7 @@
 	margin: 1px auto;	
 	align-items: center;
 	display:flex;
+	
 }
 .button_container{
 	flex: 1;
@@ -121,6 +130,7 @@
 a {
 	text-decoration:none;
 	color: black;
+	font-weight: bold;
 }
 .date:nth-child(1) {
     background: #FFEAEA;
@@ -155,13 +165,19 @@ a {
 	background-color:#FAEBFF;
 	margin:2px;
 }
+.holiday {
+	
+	position:relative;
+	color: red;
+	font-weight: bold;
+}
 </style>
 </head>
 <body>
 <div id="body">
 <div id="container">
 	<div id="header">
-		<div class="button_container">
+		<div class="button_container" >
 			<div class="button"><a href="#">month</a></div>
 			<div class="button"><a href="#">week</a></div>
 			<div class="button"><a href="#">today</a></div>
@@ -177,7 +193,7 @@ a {
 		</div>
 	</div>
 	<div class="clear"></div>
-	<div class="week">
+	<div class="week" style="background-color:#ffd966;">
 		<div class='day_red'><p class="first_line">Sun</p></div>
 		<div class="day_black"><p class="first_line">Mon</p></div>
 		<div class="day_black"><p class="first_line">Tue</p></div>
@@ -190,7 +206,7 @@ a {
 	
 	<div class="week">
 	<%for(int i=0; i<FIRST_DAY;i++){ %>
-	<div class=date></div>
+	<div class=date_not></div>
 	<%	cnt++;
 	}
 	  for(int j=1; j<=LAST_DATE;j++){
@@ -199,8 +215,36 @@ a {
 		</div><div class=week>
 	<%	
 		  };
+		
+		if(j==calendarVO.getToday()){
 	%>
+		<div class=today>
+		<a class="day" href="#"><%=j %></a>
+		<%for(int n=0;n<holidayList.size();n++){
+			HolidayVO holidayVO = holidayList.get(n);
+
+			if(holidayVO.getHolDate()==j){
+			%>
+			<span class="holiday"><%=holidayVO.getHolName() %></span>
+			<%}} %>
+		<ul class="box">
+		<% for(int p=0;p<list.size();p++){
+			ScheduleVO scheduleVO = list.get(p);
+			if(scheduleVO.getS_date()==j){
+		%>
+			<li><%=scheduleVO.getSubject() %>
+				<input type="hidden" value="<%=scheduleVO.getContent_id()%>"></li>
+		</ul>		
+		</div>
+		<%}}}else { %>
 		<div class=date><a class="day" href="#"><%=j %></a>
+		<%for(int n=0;n<holidayList.size();n++){
+			HolidayVO holidayVO = holidayList.get(n);
+
+			if(holidayVO.getHolDate()==j){
+			%>
+			<span class="holiday"><%=holidayVO.getHolName() %></span>
+			<%}} %>
 		<ul class="box">
 		<% for(int p=0;p<list.size();p++){
 			ScheduleVO scheduleVO = list.get(p);
@@ -211,6 +255,7 @@ a {
 		</li>
 		<%
 			}
+		}
 		}
 		%>
 		</ul>
@@ -224,7 +269,7 @@ a {
 	  }
 	  for(int k=6; k>=last;k--){
 	 %>
-	 	<div class=date></div>
+	 	<div class=date_not></div>
 	 	<%} %>
 	 	<form id="vo">
 	 	<input type="hidden" name="year" value="<%=year%>">
@@ -247,7 +292,7 @@ a {
 </div>
 
 <script>
-$(function(){
+$(function(){	
 $('.day').bind('click',function(){
 	var month = $('#month').text();
 	var year = $('#year').text();
@@ -290,6 +335,7 @@ $('.button').bind({
 		location.href =	url;
 	}
 })
+
 })
 
 </script>

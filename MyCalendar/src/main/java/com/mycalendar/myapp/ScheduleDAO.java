@@ -42,6 +42,16 @@ public class ScheduleDAO {
 				year = year-1;
 				month = 12;
 			}
+			Calendar cal = Calendar.getInstance();
+			int today; 
+			int this_year = cal.get(Calendar.YEAR);
+			int this_month = cal.get(Calendar.MONTH)+1;
+			
+			if(year==this_year && month==this_month){
+				today=cal.get(Calendar.DATE);
+			} else{
+				today=0;
+			}
 			
 			CalendarVO calendarVO= new CalendarVO();
 			int firstDay = 0;			
@@ -69,11 +79,13 @@ public class ScheduleDAO {
 			if (firstDay == 7 ){
 				firstDay=0;
 			}
+			
+			
 			calendarVO.setYear(year);
 			calendarVO.setMonth(month);
 			calendarVO.setFirstDay(firstDay);
 			calendarVO.setLastDate(lastDate);
-			
+			calendarVO.setToday(today);
 			return calendarVO;
 			
 		}
@@ -85,6 +97,7 @@ public class ScheduleDAO {
 			Calendar cal = Calendar.getInstance();
 			int year = cal.get(Calendar.YEAR);
 			int month = cal.get(Calendar.MONTH)+1;
+			int today = cal.get(Calendar.DATE);
 			int i=0;
 			int total1 = 365*(year-1)+(year-1)/4-(year-1)/100+(year-1)/400; //1년 1월부터 y년 m-1월까지의 총날짜
 			int total2=0;
@@ -113,6 +126,7 @@ public class ScheduleDAO {
 			calendarVO.setMonth(month);
 			calendarVO.setFirstDay(firstDay);
 			calendarVO.setLastDate(lastDate);
+			calendarVO.setToday(today);
 			
 			return calendarVO;
 		}
@@ -146,7 +160,7 @@ public class ScheduleDAO {
 			}
 			
 		}
-		
+	
 		public ArrayList<ScheduleVO> getMonthSchedule(CalendarVO vo, String id){
 			ArrayList<ScheduleVO> scheduleList=new ArrayList<ScheduleVO>();
 			ScheduleVO scheduleVO= null;
@@ -233,4 +247,76 @@ public class ScheduleDAO {
 				JDBCUtil.closeResource(stmt, conn);
 			}
 		}
+		public ArrayList<HolidayVO> getHolidaySchedule(CalendarVO vo){
+			ArrayList<HolidayVO> holidayList=new ArrayList<HolidayVO>();
+			HolidayVO holidayVO = null;
+			switch(vo.getMonth()){
+			case 1:
+				holidayVO = new HolidayVO();
+				holidayVO.setHolDate(1);
+				holidayVO.setHolName("신정");
+				holidayList.add(holidayVO);
+				break;
+			case 2:
+				
+				break;
+			case 3:
+				holidayVO = new HolidayVO();
+				holidayVO.setHolDate(1);
+				holidayVO.setHolName("삼일절");
+				holidayList.add(holidayVO);
+				break;
+			case 4:
+				
+				break;
+			case 5:
+				holidayVO = new HolidayVO();
+				holidayVO.setHolDate(5);
+				holidayVO.setHolName("어린이날");
+				holidayList.add(holidayVO);
+				break;
+			case 6:
+				holidayVO = new HolidayVO();
+				holidayVO.setHolDate(6);
+				holidayVO.setHolName("현충일");
+				holidayList.add(holidayVO);
+				break;
+			case 7:
+				
+				break;
+			case 8:
+				holidayVO = new HolidayVO();
+				holidayVO.setHolDate(15);
+				holidayVO.setHolName("광복절");
+				holidayList.add(holidayVO);
+				break;
+			case 9:
+				
+				break;
+			case 10:
+				holidayVO = new HolidayVO();
+				holidayVO.setHolDate(3);
+				holidayVO.setHolName("개천절");
+				holidayList.add(holidayVO);
+				holidayVO = new HolidayVO();
+				holidayVO.setHolDate(9);
+				holidayVO.setHolName("한글날");
+				holidayList.add(holidayVO);
+				break;
+			case 11:
+				
+				break;
+			case 12:
+				holidayVO = new HolidayVO();
+				holidayVO.setHolDate(25);
+				holidayVO.setHolName("크리스마스");
+				holidayList.add(holidayVO);
+				break;				
+			
+			}
+			
+			
+			return holidayList;
+		}
+		
 }

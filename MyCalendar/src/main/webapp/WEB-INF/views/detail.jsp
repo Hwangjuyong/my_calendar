@@ -47,6 +47,12 @@ td{
 		<tr>
 			<td>일정</td>
 			<td>
+			<%if(scheduleVO.getAllday()==null){ %>
+			<%=scheduleVO.getStartTime()%>~<%=scheduleVO.getEndTime() %>
+			<%}else{ %>
+			종일
+			<% }
+			%>
 			</td>
 		</tr>
 		<tr>
@@ -57,23 +63,12 @@ td{
 		</tr>
 		<tr>
 			<td>범주</td>
-			<td><select name="category">
-			<%for(int i=0; i<=10; i++){ %>
-			<option value="<%=i%>"><%=i %></option>
-			<%} %>			
-			</select>
+			<td><%=scheduleVO.getCategory() %></td>
 		</tr>
 		
 		<tr>
 			<td>반복</td>
-			<td><select name="repetition">
-				<option value="없음">없음</option>
-				<option value="매일">매일</option>
-				<option value="매주">매주</option>
-				<option value="매월">매월</option>
-				<option value="매년">매년</option>				
-			
-			</select></td>
+			<td><%=scheduleVO.getRepetition() %></td>
 		</tr>
 		<tr>
 			<td colspan="2"><a href="javascript:submit();">수정하기</a></td>

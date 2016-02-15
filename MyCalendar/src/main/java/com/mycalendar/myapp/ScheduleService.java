@@ -9,4 +9,5 @@ public interface ScheduleService {
 	public ArrayList<ScheduleVO> getScheduleList(CalendarVO calendarVO, String id);
 	public ScheduleVO getDetail(String content_id);
 	public void deleteSchedule(String content_id);
+	public ArrayList<HolidayVO> getHolidayList(CalendarVO calendarVO);
 }
