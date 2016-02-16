@@ -71,7 +71,7 @@ td{
 			<td><%=scheduleVO.getRepetition() %></td>
 		</tr>
 		<tr>
-			<td colspan="2"><a href="javascript:submit();">수정하기</a></td>
+			<td colspan="2"><a href="schedule.do?method=updateForm&content_id=<%=scheduleVO.getContent_id() %>">수정하기</a></td>
 		</tr>
 		<tr>
 			<td colspan="2"><a href="schedule.do?method=deleteSchedule&content_id=<%=scheduleVO.getContent_id() %>">삭제하기</a></td>

@@ -60,6 +60,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 		ArrayList<HolidayVO> holidayList=scheduleDAO.getHolidaySchedule(calendarVO);
 		return holidayList;
 	}
+
+	
 	
 
 }

@@ -19,8 +19,7 @@ public class ScheduleController {
 			
 	@RequestMapping(params="method=main")
 	public String getCalendar(Model model, CalendarVO calendarVO, HttpServletRequest request,HttpSession session) throws Exception{
-		
-		
+				
 		if(request.getParameter("showYear")==null||Integer.parseInt(request.getParameter("showYear"))==0){
 			calendarVO = scheduleService.getCalendar();
 		} else{
@@ -35,9 +34,7 @@ public class ScheduleController {
 		ArrayList<ScheduleVO> list = scheduleService.getScheduleList(calendarVO, id);
 		model.addAttribute("list", list);
 		model.addAttribute("holidayList", holidayList);
-		
-		
-	
+			
 		return "main";
 	}
 	
@@ -70,13 +67,27 @@ public class ScheduleController {
 						
 		return "redirect:/schedule.do?method=main";
 		
-	}@RequestMapping(params="method=deleteSchedule")
+	}
+	
+	@RequestMapping(params="method=deleteSchedule")
 	public String deleteSchedule(HttpServletRequest request,HttpSession session) throws Exception{
 		
 		String content_id = request.getParameter("content_id");
 		scheduleService.deleteSchedule(content_id);
 						
 		return "redirect:/schedule.do?method=main";
+		
+	}
+	
+	@RequestMapping(params="method=updateForm")
+	public String getUpdateForm(HttpServletRequest request,HttpSession session) throws Exception{
+		ScheduleVO scheduleVO = null;
+		
+		String content_id = request.getParameter("content_id");
+		scheduleVO = scheduleService.getDetail(content_id);
+		
+		request.setAttribute("scheduleVO", scheduleVO);
+		return "updateForm";
 		
 	}
 }

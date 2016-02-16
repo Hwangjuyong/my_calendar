@@ -20,9 +20,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
+<title>일정-MyCalendar</title>
 <style>
 #body{
 	width:99%;
@@ -30,6 +31,7 @@
 	margin:0px auto;
 	padding:0px;
 	display: flex;
+	min-width:880px;
 }
 #container{
 	width : 70%;
@@ -49,6 +51,7 @@
 	border : 1px solid #7F7F7F;
 	width : 98%;
 	height : 100px;	
+	text-align:center;
 }
 #mini{
 	margin : 1px;
@@ -121,7 +124,9 @@
 	margin: 1px auto;	
 	align-items: center;
 	display:flex;
-	
+}
+#header, .week{
+	min-width: 600px;
 }
 .button_container{
 	flex: 1;
@@ -163,10 +168,13 @@ a {
 }
 .box li{
 	background-color:#FAEBFF;
-	margin:2px;
-}
-.holiday {
+	margin-left:1px;
+	margin-right:1px;
+	margin-bottom:2px;
+	font-size:12px;
 	
+}
+.holiday {	
 	position:relative;
 	color: red;
 	font-weight: bold;
@@ -222,9 +230,8 @@ a {
 		<a class="day" href="#"><%=j %></a>
 		<%for(int n=0;n<holidayList.size();n++){
 			HolidayVO holidayVO = holidayList.get(n);
-
 			if(holidayVO.getHolDate()==j){
-			%>
+		%>
 			<span class="holiday"><%=holidayVO.getHolName() %></span>
 			<%}} %>
 		<ul class="box">
@@ -232,17 +239,21 @@ a {
 			ScheduleVO scheduleVO = list.get(p);
 			if(scheduleVO.getS_date()==j){
 		%>
-			<li><%=scheduleVO.getSubject() %>
+			<li>(<%=scheduleVO.getStartTime()%>)&nbsp;<%=scheduleVO.getSubject() %>
 				<input type="hidden" value="<%=scheduleVO.getContent_id()%>"></li>
-		</ul>		
-		</div>
-		<%}}}else { %>
-		<div class=date><a class="day" href="#"><%=j %></a>
+		<%	}
+		  }
+		%>
+		</ul>
+		</div>		
+		<%} else { 
+		%>
+		<div class=date>
+		<a class="day" href="#"><%=j %></a>
 		<%for(int n=0;n<holidayList.size();n++){
 			HolidayVO holidayVO = holidayList.get(n);
-
 			if(holidayVO.getHolDate()==j){
-			%>
+		%>
 			<span class="holiday"><%=holidayVO.getHolName() %></span>
 			<%}} %>
 		<ul class="box">
@@ -250,17 +261,15 @@ a {
 			ScheduleVO scheduleVO = list.get(p);
 			if(scheduleVO.getS_date()==j){
 		%>
-		<li><%=scheduleVO.getSubject() %>
-		<input type="hidden" value="<%=scheduleVO.getContent_id()%>">
-		</li>
+			<li>(<%=scheduleVO.getStartTime()%>)&nbsp;<%=scheduleVO.getSubject() %>
+			<input type="hidden" value="<%=scheduleVO.getContent_id()%>"></li>
 		<%
 			}
 		}
-		}
-		%>
-		</ul>
+		%></ul>
 		</div>
-	<% 	
+		<%	
+		}	
 	  	cnt++; 
 	  }
 	  int last = FIRST_DAY+LAST_DATE%7;
@@ -277,7 +286,10 @@ a {
 	 </div>
 </div>
 <div id="wrap">	
-	<div id="info"><%=userVO.getName() %>님 환영합니다.^^</div>
+	<div id="info">
+		<h2><%=userVO.getName() %>님 환영합니다.^^</h2>
+		<a href="user.do?method=logout">로그아웃</a>
+	</div>	
 	<div id="mini">
 	<%for(int i=0;i<list.size();i++){
 		ScheduleVO scheduleVO = list.get(i);

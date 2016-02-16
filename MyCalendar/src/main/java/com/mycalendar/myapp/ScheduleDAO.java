@@ -23,7 +23,7 @@ public class ScheduleDAO {
 		
 		private final String GET_MONTH_SCHEDULE
 		="select * from calendar_ex "
-				+"where id=? and s_year=? and s_month=? order by s_date";
+				+"where id=? and s_year=? and s_month=? order by starttime";
 		
 		private final String GET_DETAIL
 		="select * from calendar_ex where content_id=?";
