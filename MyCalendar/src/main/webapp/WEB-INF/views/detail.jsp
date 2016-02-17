@@ -5,11 +5,9 @@
 <%@ page import="com.mycalendar.myapp.UserVO" %>
 <%
 	ScheduleVO scheduleVO = new ScheduleVO();
-	scheduleVO = (ScheduleVO) request.getAttribute("scheduleVO");
-	
-	
+	scheduleVO = (ScheduleVO) request.getAttribute("scheduleVO");	
 %>    
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
@@ -24,6 +22,12 @@ table{
 }
 td{
 	border: 1px solid pink;
+}
+textarea{
+	width: 98%;
+	height: 200px;
+	margin: auto;
+	font-size: 14px
 }
 </style>
 </head>
@@ -42,7 +46,7 @@ td{
 		</tr>
 		
 		<tr>			
-			<td colspan="2"><%=scheduleVO.getContent() %></td>
+			<td colspan="2"><textarea disabled="disabled"><%=scheduleVO.getContent() %></textarea></td>
 		</tr>
 		<tr>
 			<td>일정</td>
@@ -71,14 +75,25 @@ td{
 			<td><%=scheduleVO.getRepetition() %></td>
 		</tr>
 		<tr>
-			<td colspan="2"><a href="schedule.do?method=updateForm&content_id=<%=scheduleVO.getContent_id() %>">수정하기</a></td>
+			<td colspan="2"><a id="doUpdate" href="#"><input type="hidden" value="<%=scheduleVO.getContent_id() %>">수정하기</a></td>
 		</tr>
 		<tr>
 			<td colspan="2"><a href="schedule.do?method=deleteSchedule&content_id=<%=scheduleVO.getContent_id() %>">삭제하기</a></td>
-		</tr>
-	
+		</tr>	
 	
 	</table>	
-</body>
+<script>
+$('#doUpdate').bind({
+	click:function(){
+		var content_id = $(this).children(':first').val();
+				
+		$.post('schedule.do?method=updateForm',
+				{content_id:content_id},
+				function(data){
+					$('#detail').html(data);
+				});
+	}});
+
+</script>	
 </body>
 </html>

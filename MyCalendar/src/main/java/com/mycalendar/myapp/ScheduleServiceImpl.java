@@ -61,6 +61,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return holidayList;
 	}
 
+	@Override
+	public ArrayList<DDayVO> getDDayList(String id) {
+		
+		ArrayList<DDayVO> dDayList=scheduleDAO.getDDayList(id);
+		return dDayList;
+	}
+
 	
 	
 

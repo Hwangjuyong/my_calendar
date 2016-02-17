@@ -34,7 +34,8 @@ public class ScheduleController {
 		ArrayList<ScheduleVO> list = scheduleService.getScheduleList(calendarVO, id);
 		model.addAttribute("list", list);
 		model.addAttribute("holidayList", holidayList);
-			
+		ArrayList<DDayVO> dDayList = scheduleService.getDDayList(id);
+		model.addAttribute("dDayList",dDayList);
 		return "main";
 	}
 	

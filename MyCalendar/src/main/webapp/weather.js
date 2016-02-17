@@ -137,33 +137,38 @@ function xml2jsonCurrentWth(nx, ny){
  
     var _nx = nx,
     _ny = ny,
-    apikey = "o2dY%2BgjBQaQRPO2uTSEoXu7Io8OK%2FBL3eBgbJ7YlCbMbE3AStdluVkw0Pc86XU2Jvq%2Br2JThYkdmUw8HHE%2Bpyw%3D%3D",
+    apikey = "FSzUxGVYZlmvE1tgEaw%2BLkaWlBEXXAM7hT2lZ0dvo%2FbAFT6R1B%2FWT2DFQnLabI2D0XKR7PHukIiSXIRr92dBBw%3D%3D",
     today = yyyy+""+mm+""+dd,
     basetime = hours + "00",
-    fileName = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService/ForecastGrib";
+    fileName = "http://newsky2.kma.go.kr/service/SecndSrtpdFrcstInfoService2/ForecastSpaceData";
     fileName += "?ServiceKey=" + apikey;
     fileName += "&base_date=" + today;
     fileName += "&base_time=" + basetime;
     fileName += "&nx=" + _nx + "&ny=" + _ny;
     fileName += "&pageNo=1&numOfRows=6";
     fileName += "&_type=json";
- 
     $.ajax({
     url: fileName,
-    // dataType: "jsonp",
+    //dataType: "jsonp",
     type: 'GET',
     cache: false,
     success: function(data) {
+    	
         var myXML = rplLine(data.responseText);
-        var indexS = myXML.indexOf("<p>"),
-            indexE = myXML.indexOf("</p>"),
-            result = myXML.substring(indexS + 3, indexE);
-        var jsonObj = $.parseJSON('[' + result + ']'),
-            rainsnow = jsonObj[0].response.body.items.item[0].obsrValue,
-            sky = jsonObj[0].response.body.items.item[4].obsrValue,
-            temp = jsonObj[0].response.body.items.item[5].obsrValue;
-            var contentText = document.getElementById('info');
-        contentText.innerHTML = "하늘 상태 : " + sky + " / 눈 비 상태 : " + rainsnow + " / 온도 : " + temp;
+    	console.log(myXML);
+    	
+        var indexS = myXML.indexOf("<body>"),
+            indexE = myXML.indexOf("</body>"),
+            result = myXML.substring(indexS + 6, indexE);
+
+
+       var jsonObj = $.parseJSON('[' + result + ']'),
+        rainsnow = jsonObj[0].response.body.items.item[0].fcstValue,
+            sky = jsonObj[0].response.body.items.item[4].fcstValue,
+            temp = jsonObj[0].response.body.items.item[5].fcstValue;      
+
+        var contentText = document.getElementById('weather');
+        contentText.innerHTML = "sky:" + sky + " / rain : " + rainsnow + " / temp : " + temp;
     },
     error:function(request,status,error){
         alert("다시 시도해주세요.\n" + "code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -181,4 +186,3 @@ function rplLine(value){
     }
 }
 // rplLine
-getLocation();

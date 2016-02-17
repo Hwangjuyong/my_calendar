@@ -4,8 +4,10 @@
 <%@ page import="com.mycalendar.myapp.ScheduleVO" %>
 <%@ page import="com.mycalendar.myapp.UserVO" %>
 <%@ page import="com.mycalendar.myapp.HolidayVO" %>
+<%@ page import="com.mycalendar.myapp.DDayVO" %>
 <%@ page import="java.util.ArrayList" %>
 <% 
+	ArrayList<DDayVO> dDayList = (ArrayList<DDayVO>)request.getAttribute("dDayList");
 	ArrayList<ScheduleVO> list = (ArrayList<ScheduleVO>)request.getAttribute("list");
 	CalendarVO calendarVO=(CalendarVO)request.getAttribute("calendarVO");
 	ArrayList<HolidayVO> holidayList = (ArrayList<HolidayVO>)request.getAttribute("holidayList");
@@ -22,6 +24,8 @@
 <head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src=jquery.xdomainajax.js></script>
+<script src="weather.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>일정-MyCalendar</title>
 <style>
@@ -54,6 +58,12 @@
 	text-align:center;
 }
 #mini{
+	margin : 1px;
+	border : 1px solid #7F7F7F;
+	width : 98%;
+	height : 100px;
+}
+#weather{
 	margin : 1px;
 	border : 1px solid #7F7F7F;
 	width : 98%;
@@ -291,13 +301,13 @@ a {
 		<a href="user.do?method=logout">로그아웃</a>
 	</div>	
 	<div id="mini">
-	<%for(int i=0;i<list.size();i++){
-		ScheduleVO scheduleVO = list.get(i);
-	%>
-	<a><%=scheduleVO.getSubject() %></a>
-	<%
-	}
-	%>
+	<%for(int i=0; i<dDayList.size();i++){ 
+		DDayVO dDayVO = dDayList.get(i);%>
+	<p><%=dDayVO.getName()%>:<%=dDayVO.getdDay() %></p>
+	<%} %>	
+	</div>
+	<div id="weather">
+	
 	</div>
 	<div id="detail"></div>
 </div>
@@ -347,9 +357,9 @@ $('.button').bind({
 		location.href =	url;
 	}
 })
-
 })
-
+	
+getLocation();
 </script>
 </body>
 </html>

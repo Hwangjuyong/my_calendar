@@ -42,7 +42,7 @@ textarea{
 </style>
 </head>
 <body>
-	<form name="inserform" method="post" action="schedule.do?method=addSchedule">
+	<form name="insertForm" method="post" action="schedule.do?method=addSchedule">
 	<input type="hidden" name="s_year" value="<%=year %>">
 	<input type="hidden" name="s_month" value="<%=month %>">
 	<input type="hidden" name="s_date" value="<%=date %>">
@@ -191,16 +191,21 @@ textarea{
 			</select></td>
 		</tr>
 		<tr>
-			<td colspan="2"><a href="javascript:submit();">일정등록</a></td>
+			<td>D-Day 등록</td>
+			<td><input type="checkbox" name="dDay" value="1"></td>
+		</tr>
+		<tr>
+		
+			<td colspan="2"><a href="javascript:insertForm.submit();">일정등록</a></td>
+			
 		</tr>
 		<tr>
 			<td colspan="2"><a href="#">다시작성</a></td>
 		</tr>
-		<tr>
-			<td><input type="submit" value="제출"></td>
-		</tr>
+		
 	
 	</table>
 	</form>
+
 </body>
 </html>
