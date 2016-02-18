@@ -196,7 +196,7 @@ textarea{
 		</tr>
 		<tr>
 		
-			<td colspan="2"><a href="javascript:insertForm.submit();">일정등록</a></td>
+			<td colspan="2"><a  href="javascript:insertForm.submit();">일정등록</a></td>
 			
 		</tr>
 		<tr>

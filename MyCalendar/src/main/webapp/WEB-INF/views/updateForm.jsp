@@ -215,7 +215,7 @@ textarea{
 			<td colspan="2"><a href="javascript:submit();">일정등록</a></td>
 		</tr>
 		<tr>
-			<td colspan="2"><a href="#">다시작성</a></td>
+			<td colspan="2"><a  href="#">다시작성</a></td>
 		</tr>
 		<tr>
 			<td><input type="submit" value="제출"></td>

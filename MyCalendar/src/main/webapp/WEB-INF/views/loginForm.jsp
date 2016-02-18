@@ -62,7 +62,7 @@ input{
 			<td><input type="password" placeholder="비밀번호" size="30" name="password"></td>
 		</tr>
 		<tr>
-			<td colspan="2"><a href="javascript:loginform.submit();">login</a></td>			
+			<td colspan="2"><a  href="javascript:loginform.submit();">login</a></td>			
 		</tr>
 		<tr>
 			<td colspan="2"><a href="user.do?method=joinform">join</a></td>

@@ -70,7 +70,7 @@ input{
 			<td colspan="2"><a href="javascript:check();">join</a></td>
 		</tr>
 		<tr>
-			<td colspan="2"><a href="javascript:history.back();">back</a></td>
+			<td colspan="2"><a  href="javascript:history.back();">back</a></td>
 		</tr>
 	</table>
 	</form>

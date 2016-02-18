@@ -46,7 +46,7 @@ textarea{
 		</tr>
 		
 		<tr>			
-			<td colspan="2"><textarea disabled="disabled"><%=scheduleVO.getContent() %></textarea></td>
+			<td colspan="2">< textarea disabled="disabled"><%=scheduleVO.getContent() %></textarea></td>
 		</tr>
 		<tr>
 			<td>¿œ¡§</td>

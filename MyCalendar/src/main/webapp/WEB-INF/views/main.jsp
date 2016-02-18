@@ -54,20 +54,20 @@
 	margin : 1px;
 	border : 1px solid #7F7F7F;
 	width : 98%;
-	height : 100px;	
+	height : 80px;	
 	text-align:center;
 }
 #mini{
 	margin : 1px;
 	border : 1px solid #7F7F7F;
 	width : 98%;
-	height : 100px;
+	height : 80px;
 }
 #weather{
 	margin : 1px;
 	border : 1px solid #7F7F7F;
 	width : 98%;
-	height : 100px;
+	height : 80px;
 }
 #detail{
 	margin : 1px;
@@ -189,6 +189,10 @@ a {
 	color: red;
 	font-weight: bold;
 }
+h3 {
+	margin : 10px auto;
+	
+}
 </style>
 </head>
 <body>
@@ -297,7 +301,7 @@ a {
 </div>
 <div id="wrap">	
 	<div id="info">
-		<h2><%=userVO.getName() %>´Ô È¯¿µÇÕ´Ï´Ù.^^</h2>
+		<h3><%=userVO.getName() %>´Ô È¯¿µÇÕ´Ï´Ù.^^</h3>
 		<a href="user.do?method=logout">·Î±×¾Æ¿ô</a>
 	</div>	
 	<div id="mini">
