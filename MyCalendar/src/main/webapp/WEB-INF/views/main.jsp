@@ -35,17 +35,17 @@
 	margin:0px auto;
 	padding:0px;
 	display: flex;
-	min-width:880px;
+	min-width:1300px;
 }
 #container{
-	width : 70%;
+	width : 75%;
 	height: 99%;
 	margin: 0px auto;
 	align-content: center;
 	flex=1;
 }
 #wrap { 
-	width : 29%;
+	width : 24%;
 	height: 99%;
 	margin : 0px auto;
 	flex=1;
@@ -81,7 +81,6 @@
 	border :1px dotted #7F7F7F;
 	display : flex;
 }
-
 .clear{
 	clear:both;
 	padding: 0px;
@@ -102,11 +101,11 @@
 }
 .date,.date_not, .today{
 	height: 120px;
+	overflow:hidden;	
 }
 .today{
 	background-color:#FFFFE4;
 }
-
 .first_line{
 	font-size: 19px;
 	text-align: center;
@@ -136,7 +135,7 @@
 	display:flex;
 }
 #header, .week{
-	min-width: 600px;
+	min-width: 940px;
 }
 .button_container{
 	flex: 1;
@@ -252,8 +251,12 @@ h3 {
 		<% for(int p=0;p<list.size();p++){
 			ScheduleVO scheduleVO = list.get(p);
 			if(scheduleVO.getS_date()==j){
+				String subject = scheduleVO.getSubject();
+				if(subject.length()>4){
+					subject = subject.substring(0,3)+" ..";
+				}
 		%>
-			<li>(<%=scheduleVO.getStartTime()%>)&nbsp;<%=scheduleVO.getSubject() %>
+			<li><%=scheduleVO.getStartTime()%>)&nbsp;<%=scheduleVO.getSubject() %>
 				<input type="hidden" value="<%=scheduleVO.getContent_id()%>"></li>
 		<%	}
 		  }
@@ -274,8 +277,12 @@ h3 {
 		<% for(int p=0;p<list.size();p++){
 			ScheduleVO scheduleVO = list.get(p);
 			if(scheduleVO.getS_date()==j){
+				String subject = scheduleVO.getSubject();
+				if(subject.length()>4){
+					subject = subject.substring(0,3)+" ..";
+				}
 		%>
-			<li>(<%=scheduleVO.getStartTime()%>)&nbsp;<%=scheduleVO.getSubject() %>
+			<li><%=scheduleVO.getStartTime()%>)&nbsp;<%=subject %>
 			<input type="hidden" value="<%=scheduleVO.getContent_id()%>"></li>
 		<%
 			}
@@ -307,7 +314,7 @@ h3 {
 	<div id="mini">
 	<%for(int i=0; i<dDayList.size();i++){ 
 		DDayVO dDayVO = dDayList.get(i);%>
-	<p><%=dDayVO.getName()%>:<%=dDayVO.getdDay() %></p>
+	<p><%=dDayVO.getName()%> : D<%=dDayVO.getdDay()%></p>
 	<%} %>	
 	</div>
 	<div id="weather">
@@ -359,6 +366,14 @@ $('.button').bind({
 	click:function(){
 		var url = $(this).children(':first').val();
 		location.href =	url;
+	}
+})
+$('.date').bind({
+	mouseenter:function(){
+		$(this).css({'overflow':"auto"});
+	},
+	mouseout:function(){
+		$(this).css({'overflow':"hidden"});
 	}
 })
 })

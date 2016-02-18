@@ -1,3 +1,4 @@
+
 function getLocation(){
 	if(navigator.geolocation){
 		navigator.geolocation.getCurrentPosition(locationSuccess, locationError, geo_options);
@@ -145,7 +146,7 @@ function xml2jsonCurrentWth(nx, ny){
     fileName += "&base_date=" + today;
     fileName += "&base_time=" + basetime;
     fileName += "&nx=" + _nx + "&ny=" + _ny;
-    fileName += "&pageNo=1&numOfRows=6";
+    fileName += "&pageNo=1&numOfRows=7";
     fileName += "&_type=json";
     $.ajax({
     url: fileName,
@@ -162,13 +163,33 @@ function xml2jsonCurrentWth(nx, ny){
             result = myXML.substring(indexS + 6, indexE);
 
 
-       var jsonObj = $.parseJSON('[' + result + ']'),
-        rainsnow = jsonObj[0].response.body.items.item[0].fcstValue,
-            sky = jsonObj[0].response.body.items.item[4].fcstValue,
-            temp = jsonObj[0].response.body.items.item[5].fcstValue;      
-
+       var jsonObj = $.parseJSON('[' + result + ']');      
+       for(i=0; i<7;i++){
+    	   if(jsonObj[0].response.body.items.item[i].category=='POP'){
+    		   var rainsnow = jsonObj[0].response.body.items.item[i].fcstValue;
+    	   }
+    	   if(jsonObj[0].response.body.items.item[i].category=='SKY'){
+    		   var sky = jsonObj[0].response.body.items.item[i].fcstValue;
+    	   }
+    	   if(jsonObj[0].response.body.items.item[i].category=='T3H'){
+    		   var temp = jsonObj[0].response.body.items.item[i].fcstValue;
+    	   }
+       }
+       switch(sky){
+       case 1:
+    	   sky="sunny";
+    	   break;
+       case 2:
+    	   sky="slightly covered sky";
+    	   break;       
+       case 3:
+    	   sky="very cloudy";
+    	   break;
+       case 4:
+    	   sky="mostly cloudy"
+       }
         var contentText = document.getElementById('weather');
-        contentText.innerHTML = "sky:" + sky + " / rain : " + rainsnow + " / temp : " + temp;
+        contentText.innerHTML = "sky : " + sky + "<br>rain : " + rainsnow + "%<br>temp : " + temp+ "\'c";
     },
     error:function(request,status,error){
         alert("다시 시도해주세요.\n" + "code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

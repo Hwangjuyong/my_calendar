@@ -29,14 +29,17 @@ input[type="text"]{
 	width: 98%;
 	height: 40px;
 	margin: auto;
-	font-size: 20px;
+	font-size: 18px;
 	
 }
 textarea{
 	width: 98%;
-	height: 200px;
+	height: 160px;
 	margin: auto;
 	font-size: 14px
+}
+input[type="number"]{
+	width: 50px;
 }
 
 </style>
@@ -49,22 +52,22 @@ textarea{
 	<input type="hidden" name="id" value="<%=userVO.getId()%>">
 	<table>
 		<tr>
-			<td colspan="2"><%=year %>년 <%=month %>월 <%=date %>일의</td>
+			<td colspan="4"><%=year %>년 <%=month %>월 <%=date %>일의</td>
 		</tr>
 		<tr>
-			<td colspan="2">일정 등록하기</td>
+			<td colspan="4">일정 등록하기</td>
 		</tr>
 			
 		<tr>
-			<td colspan="2"><input type="text" name="subject" placeholder="제목을 입력하세요" required></td>
+			<td colspan="4"><input type="text" name="subject" placeholder="제목을 입력하세요" required></td>
 		</tr>
 		
 		<tr>			
-			<td colspan="2"><textarea name="content" placeholder="내용을 입력하세요"></textarea></td>
+			<td colspan="4"><textarea name="content" placeholder="내용을 입력하세요"></textarea></td>
 		</tr>
 		<tr>
 			<td>일정</td>
-			<td><select name="startTime">
+			<td colspan="4"><select name="startTime">
 			<%
 				for(int i=0; i<12; i++){
 					String str1=null;
@@ -108,10 +111,8 @@ textarea{
 					<option value="<%=str%>"><%=str %></option>
 			<%				
 				}
-			%>
-			
-			
-			</select>~
+			%>			
+			</select>&nbsp;~&nbsp; 
 			<select name="endTime">
 		<%
 				for(int i=0; i<12; i++){
@@ -157,14 +158,19 @@ textarea{
 			<%				
 				}
 			%>
-			</select>
-			&nbsp;<label for="allday">종일</label>
-			<input type="checkbox" name="allday" value="1">
-			</td>
-		</tr>
+			</select></td>
+			</tr>
+			<tr>
+				<td>종일</td>
+				<td><input type="checkbox" name="allday" value="1"></td>
+				<td>D-day</td>
+				<td><input type="checkbox" name="dDay" value="1"></td>
+			</tr>
+	
+	
 		<tr>
 			<td>종료</td>
-			<td>
+			<td colspan="4">
 			<input type="number" name="e_year" step="1" max="2100" min="2015" value="<%=year%>">년
 			<input type="number" name="e_month" step="1" max="12" min="1" value="<%=month%>">월
 			<input type="number" name="e_date" step="1" max="31" min="1" value="<%=date%>">일
@@ -177,30 +183,23 @@ textarea{
 			<option value="<%=i%>"><%=i %></option>
 			<%} %>			
 			</select>
-		</tr>
-		
-		<tr>
 			<td>반복</td>
 			<td><select name="repetition">
 				<option value="없음">없음</option>
-				<option value="매일">매일</option>
 				<option value="매주">매주</option>
 				<option value="매월">매월</option>
 				<option value="매년">매년</option>				
 			
 			</select></td>
 		</tr>
-		<tr>
-			<td>D-Day 등록</td>
-			<td><input type="checkbox" name="dDay" value="1"></td>
-		</tr>
+				
 		<tr>
 		
-			<td colspan="2"><a  href="javascript:insertForm.submit();">일정등록</a></td>
+			<td colspan="4"><a  href="javascript:insertForm.submit();">일정등록</a></td>
 			
 		</tr>
 		<tr>
-			<td colspan="2"><a href="#">다시작성</a></td>
+			<td colspan="4"><a href="#">다시작성</a></td>
 		</tr>
 		
 	
