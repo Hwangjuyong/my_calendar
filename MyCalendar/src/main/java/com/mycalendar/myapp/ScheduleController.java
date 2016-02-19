@@ -21,21 +21,24 @@ public class ScheduleController {
 	public String getCalendar(Model model, CalendarVO calendarVO, HttpServletRequest request,HttpSession session) throws Exception{
 				
 		if(request.getParameter("showYear")==null||Integer.parseInt(request.getParameter("showYear"))==0){
-			calendarVO = scheduleService.getCalendar();
+			calendarVO = scheduleService.getCalendar();			
 		} else{
 			int year=Integer.parseInt(request.getParameter("showYear"));
 			int month=Integer.parseInt(request.getParameter("showMonth"));
 			calendarVO= scheduleService.getCalendar(year, month);
 		}
 		ArrayList<HolidayVO> holidayList = scheduleService.getHolidayList(calendarVO);
-		model.addAttribute("calendarVO", calendarVO);
+		
 		UserVO userVO = (UserVO)session.getAttribute("vo");
 		String id = userVO.getId();
 		ArrayList<ScheduleVO> list = scheduleService.getScheduleList(calendarVO, id);
-		model.addAttribute("list", list);
-		model.addAttribute("holidayList", holidayList);
 		ArrayList<DDayVO> dDayList = scheduleService.getDDayList(id);
-		model.addAttribute("dDayList",dDayList);
+		
+		model.addAttribute("calendarVO", calendarVO);
+		model.addAttribute("list", list);
+		model.addAttribute("holidayList", holidayList);		
+		model.addAttribute("dDayList",dDayList);	
+		
 		return "main";
 	}
 	

@@ -38,34 +38,45 @@ td{
 	height: 45px;
 	font-size: 15px;
 }
-input{
-	height: 40px;
-	font-size: 15px;
-	padding:0px;
+
+input[type="email"]{	
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 18px;  
+    padding: 12px 20px 12px 10px;
+}input[type="password"]{
+	
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 18px;  
+    padding: 12px 20px 12px 10px;
 }
+
 </style>
 
 </head>
-<body id="bg" onload="today();">	
+<body id="bg">	
     <div id="input">    	
     	<form name="loginform" method="post" action="user.do?method=login">
 		<table>
 		<tr>
-			<td colspan="2"><h2>Gain Time, Gain Life</h2></td>
+			<td ><h2>Gain Time, Gain Life</h2></td>
+		</tr>
+		<tr>			
+			<td><input type="email" placeholder="Hello1234@mycalendar.com" size="30"  name="id" autofocus="autofocus"></td>
+		</tr>
+		<tr>			
+			<td><input type="password" placeholder="password" size="30" name="password"></td>
 		</tr>
 		<tr>
-			<td>id</td>
-			<td><input placeholder="이메일 주소" size="30" type="email" name="id" autofocus="autofocus"></td>
+			<td><a  href="javascript:loginform.submit();">login</a></td>			
 		</tr>
 		<tr>
-			<td>pw</td>
-			<td><input type="password" placeholder="비밀번호" size="30" name="password"></td>
-		</tr>
-		<tr>
-			<td colspan="2"><a  href="javascript:loginform.submit();">login</a></td>			
-		</tr>
-		<tr>
-			<td colspan="2"><a href="user.do?method=joinform">join</a></td>
+			<td><a href="user.do?method=joinform">join</a></td>
 		</tr>
 	</table>
 	</form>

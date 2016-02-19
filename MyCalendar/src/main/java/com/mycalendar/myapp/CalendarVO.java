@@ -8,6 +8,7 @@ public class CalendarVO {
 	int date;
 	int today;
 	int holiday;
+	int prevMonth;
 	
 	public int getYear() {
 		return year;
@@ -50,5 +51,11 @@ public class CalendarVO {
 	}
 	public void setHoliday(int holiday) {
 		this.holiday = holiday;
+	}
+	public int getPrevMonth() {
+		return prevMonth;
+	}
+	public void setPrevMonth(int prevMonth) {
+		this.prevMonth = prevMonth;
 	}
 }

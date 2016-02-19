@@ -15,185 +15,21 @@
 	int LAST_DATE=calendarVO.getLastDate();
 	int year=calendarVO.getYear();
 	int month=calendarVO.getMonth();
-	int cnt=0;	
+	int prevMonth=calendarVO.getPrevMonth();
+	int cnt=0;
+	int nextMonthDate = 1;
 	UserVO userVO = (UserVO)session.getAttribute("vo");
 %>
-
 <!DOCTYPE html>
 <html>
-<head>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src=jquery.xdomainajax.js></script>
-<script src="weather.js"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>일정-MyCalendar</title>
-<style>
-#body{
-	width:99%;
-	height:99%;
-	margin:0px auto;
-	padding:0px;
-	display: flex;
-	min-width:1300px;
-}
-#container{
-	width : 75%;
-	height: 99%;
-	margin: 0px auto;
-	align-content: center;
-	flex=1;
-}
-#wrap { 
-	width : 24%;
-	height: 99%;
-	margin : 0px auto;
-	flex=1;
-}
-#info{
-	margin : 1px;
-	border : 1px solid #7F7F7F;
-	width : 98%;
-	height : 80px;	
-	text-align:center;
-}
-#mini{
-	margin : 1px;
-	border : 1px solid #7F7F7F;
-	width : 98%;
-	height : 80px;
-}
-#weather{
-	margin : 1px;
-	border : 1px solid #7F7F7F;
-	width : 98%;
-	height : 80px;
-}
-#detail{
-	margin : 1px;
-	border : 1px solid #7F7F7F;
-	width : 98%;
-	height: 100%;
-}
-#calendar{		
-	height : 100%;
-	margin : 1px auto;
-	border :1px dotted #7F7F7F;
-	display : flex;
-}
-.clear{
-	clear:both;
-	padding: 0px;
-	margin: 0px;
-}
-.day_red, .day_black, .day_blue, .date, .today, .date_not{
-	float:left;
-	flex:1;
-	border: 1px solid #7F7F7F;
-	margin: 1px;
-}
-.date_not{
-	background-color:#EAEAEA;
-}
-.day_red, .day_black, .day_blue{	
-	height: 25px;
-	
-}
-.date,.date_not, .today{
-	height: 120px;
-	overflow:hidden;	
-}
-.today{
-	background-color:#FFFFE4;
-}
-.first_line{
-	font-size: 19px;
-	text-align: center;
-	margin : auto;
-}
-.day_red{
-	color: red;
-}
-.day_black{
-	color: black;
-}
-.day_blue{
-	color: blue;
-}
-#header{
-	width:98.6%;
-	height:80px;	
-	border: 1px solid #7F7F7F;
-	display: flex;	
-	margin: 1px auto;	
-	align-items: center;
-}
-.week{
-	width : 99%;
-	margin: 1px auto;	
-	align-items: center;
-	display:flex;
-}
-#header, .week{
-	min-width: 940px;
-}
-.button_container{
-	flex: 1;
-	display: flex;
-}
-a {
-	text-decoration:none;
-	color: black;
-	font-weight: bold;
-}
-.date:nth-child(1) {
-    background: #FFEAEA;
-}
-.date:nth-child(7) {
-    background: #EBF7FF;
-}
-.button{
-	float:left;
-	flex: 1;
-	border: 1px dotted pink;
-	text-align: center;
-	font-size:19px;
-}
-#month{
-	flex:1;
-	text-align : center;
-	font-size: 65px;
-}
-#year{
-	flex:1;
-	font-size:38px;
-	text-align : center;
-	padding-top:5%;
-}
-.box{
-	list-style-type:none;
-	margin:2px;
-	padding-left:2px;	
-}
-.box li{
-	background-color:#FAEBFF;
-	margin-left:1px;
-	margin-right:1px;
-	margin-bottom:2px;
-	font-size:12px;
-	
-}
-.holiday {	
-	position:relative;
-	color: red;
-	font-weight: bold;
-}
-h3 {
-	margin : 10px auto;
-	
-}
-</style>
-</head>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script src=".js/jquery.xdomainajax.js"></script>
+		<script src="./js/weather.js"></script>
+		<link href="./css/main.css" type="text/css" rel="stylesheet">
+		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+		<title>일정-MyCalendar</title>
+	</head>
 <body>
 <div id="body">
 <div id="container">
@@ -213,6 +49,7 @@ h3 {
 			<div class="button"><input type="hidden" value="schedule.do?method=main&showYear=0">오늘</div>				
 		</div>
 	</div>
+	
 	<div class="clear"></div>
 	<div class="week" style="background-color:#ffd966;">
 		<div class='day_red'><p class="first_line">Sun</p></div>
@@ -226,19 +63,19 @@ h3 {
 	<div class=clear></div>
 	
 	<div class="week">
-	<%for(int i=0; i<FIRST_DAY;i++){ %>
-	<div class=date_not></div>
-	<%	cnt++;
-	}
-	  for(int j=1; j<=LAST_DATE;j++){
-		  if(cnt%7 == 0 ){
-	%>
+		<%for(int i=0; i<FIRST_DAY;i++){ %>
+		<div class=date_not><a class="prevMonthDate" href="#"><%=prevMonth %></a></div>
+		<%	
+			prevMonth++;
+			cnt++;
+		}
+		for(int j=1; j<=LAST_DATE;j++){
+			if(cnt%7 == 0 ){
+		%>
 		</div><div class=week>
-	<%	
-		  };
-		
+		<%};
 		if(j==calendarVO.getToday()){
-	%>
+		%>
 		<div class=today>
 		<a class="day" href="#"><%=j %></a>
 		<%for(int n=0;n<holidayList.size();n++){
@@ -298,14 +135,18 @@ h3 {
 		  last = (FIRST_DAY+LAST_DATE%7)%8+1;
 	  }
 	  for(int k=6; k>=last;k--){
+		  
 	 %>
-	 	<div class=date_not></div>
-	 	<%} %>
+	 	<div class=date_not><a class="nextMonthDate" href="#"><%=nextMonthDate %></a></div>
+	 	<%
+	 	nextMonthDate++;
+	  } %>
 	 	<form id="vo">
 	 	<input type="hidden" name="year" value="<%=year%>">
 	 	</form>
 	 </div>
 </div>
+
 <div id="wrap">	
 	<div id="info">
 		<h3><%=userVO.getName() %>님 환영합니다.^^</h3>
@@ -328,6 +169,28 @@ h3 {
 $(function(){	
 $('.day').bind('click',function(){
 	var month = $('#month').text();
+	var year = $('#year').text();
+	var date = $(this).text();
+	
+	$.post('schedule.do?method=insertForm',
+		{year: year, month:month, date:date},
+		function(data){
+			$('#detail').html(data);
+		});
+});
+$('.nextMonthDate').bind('click',function(){
+	var month = parseInt($('#month').text())+1;
+	var year = $('#year').text();
+	var date = $(this).text();
+	
+	$.post('schedule.do?method=insertForm',
+		{year: year, month:month, date:date},
+		function(data){
+			$('#detail').html(data);
+		});
+});
+$('.prevMonthDate').bind('click',function(){
+	var month = parseInt($('#month').text())-1;
 	var year = $('#year').text();
 	var date = $(this).text();
 	
@@ -368,9 +231,10 @@ $('.button').bind({
 		location.href =	url;
 	}
 })
-$('.date').bind({
-	mouseenter:function(){
+$('.box').bind({
+	mouseover:function(){
 		$(this).css({'overflow':"auto"});
+		
 	},
 	mouseout:function(){
 		$(this).css({'overflow':"hidden"});
@@ -378,7 +242,7 @@ $('.date').bind({
 })
 })
 	
-getLocation();
+//getLocation();
 </script>
 </body>
 </html>

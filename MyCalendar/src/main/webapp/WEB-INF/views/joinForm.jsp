@@ -16,7 +16,7 @@
   background: rgb(34,34,34); /* for IE */
   background: rgba(34,34,34,0.75);
   width:400px; 
-  height:300px;
+  height:400px;
   margin: 200px auto;
 }
 table{
@@ -38,10 +38,13 @@ td{
 	height: 40px;
 	font-size: 15px;
 }
-input{
-	height: 35px;
-	font-size: 15px;
-	padding:0px;
+input[type="email"], input[type="password"], input[type="text"]{	
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 18px;  
+    padding: 12px 20px 12px 10px;
 }
 </style>
 
@@ -54,37 +57,48 @@ input{
 		<tr>
 			<td colspan="2"><h2>Join Us!</h2></td>
 		</tr>
-		<tr>
-			<td>id</td>
-			<td><input type="text" name="id"></td>
+		<tr>			
+			<td><input type="email" name="id" placeholder="email address" required autofocus></td>
 		</tr>
 		<tr>
-			<td>pw</td>
-			<td><input type="password" name="password"></td>
+			<td><input type="password" name="password" placeholder="password" required></td>
 		</tr>
 		<tr>
-			<td>pw check</td>
-			<td><input type="password" name="password_check"></td>
+			<td><input type="password" name="password_check" placeholder="password again" required></td>
+		</tr>
+		<tr>			
+			<td><input type="text" name="name" placeholder="name" ></td>
 		</tr>
 		<tr>
-			<td colspan="2"><a href="javascript:check();">join</a></td>
+			<td><a href="javascript:check();">join</a></td>
 		</tr>
 		<tr>
-			<td colspan="2"><a  href="javascript:history.back();">back</a></td>
+			<td><a href="javascript:history.back();">back</a></td>
 		</tr>
 	</table>
 	</form>
     </div>
 <script>
 function check(){
+	var id = document.joinform.id.value;
 	var pw1=document.joinform.password.value;
 	var pw2=document.joinform.password_check.value;
-	
-	if(pw1 != pw2){
-		alert("pw를 확인해주세요!");
-	} else {
-		document.joinform.submit();
+
+	if(!id){
+		alert("ID를 입력해주세요!");
+		return;
 	}
+	if(!pw1|| !pw2){
+		alert("pw를 입력해주세요!");
+		return;
+	}
+	if(pw1 != pw2){
+		alert("pw를 확인해주세요!")
+		return;
+	}
+	
+	document.joinform.submit();
+	
 	
 }    
 </script>   

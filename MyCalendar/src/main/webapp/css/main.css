@@ -1,0 +1,171 @@
+#body{
+	width:99%;
+	height:99%;
+	margin:0px auto;
+	padding:0px;
+	display: flex;
+	min-width:1300px;
+}
+#container{
+	width : 75%;
+	height: 99%;
+	margin: 0px auto;
+	align-content: center;
+	flex=1;
+}
+#wrap { 
+	width : 24%;
+	height: 99%;
+	margin : 0px auto;
+	flex=1;
+}
+#info{
+	margin : 1px;
+	border : 1px solid #7F7F7F;
+	width : 98%;
+	height : 80px;	
+	text-align:center;
+}
+#mini{
+	margin : 1px;
+	border : 1px solid #7F7F7F;
+	width : 98%;
+	height : 80px;
+}
+#weather{
+	margin : 1px;
+	border : 1px solid #7F7F7F;
+	width : 98%;
+	height : 80px;
+}
+#detail{
+	margin : 1px;
+	border : 1px solid #7F7F7F;
+	width : 98%;
+	height: 100%;
+}
+#calendar{		
+	height : 100%;
+	margin : 1px auto;
+	border :1px dotted #7F7F7F;
+	display : flex;
+}
+.clear{
+	clear:both;
+	padding: 0px;
+	margin: 0px;
+}
+.day_red, .day_black, .day_blue, .date, .today, .date_not{
+	float:left;
+	flex:1;
+	border: 1px solid #7F7F7F;
+	margin: 1px;
+}
+.date_not{
+	background-color:#EAEAEA;
+}
+.day_red, .day_black, .day_blue{	
+	height: 25px;
+	
+}
+.date,.date_not, .today{
+	height: 120px;
+
+}
+.today{
+	background-color:#FFFFE4;
+}
+.first_line{
+	font-size: 19px;
+	text-align: center;
+	margin : auto;
+}
+.day_red{
+	color: red;
+}
+.day_black{
+	color: black;
+}
+.day_blue{
+	color: blue;
+}
+#header{
+	width:98.6%;
+	height:80px;	
+	border: 1px solid #7F7F7F;
+	display: flex;	
+	margin: 1px auto;	
+	align-items: center;
+}
+.week{
+	width : 99%;
+	margin: 1px auto;	
+	align-items: center;
+	display:flex;
+}
+#header, .week{
+	min-width: 940px;
+}
+.button_container{
+	flex: 1;
+	display: flex;
+}
+a {
+	text-decoration:none;
+	color: black;
+	font-weight: bold;
+}
+.date:nth-child(1) {
+    background: #FFEAEA;
+}
+.date:nth-child(7) {
+    background: #EBF7FF;
+}
+.button{
+	float:left;
+	flex: 1;
+	border: 1px dotted pink;
+	text-align: center;
+	font-size:19px;
+}
+#month{
+	flex:1;
+	text-align : center;
+	font-size: 65px;
+}
+#year{
+	flex:1;
+	font-size:38px;
+	text-align : center;
+	padding-top:5%;
+}
+.box{
+	list-style-type:none;
+	margin:2px;
+	padding-left:2px;	
+	overflow:hidden;	
+	height:90px;
+}
+.box li{
+	background-color:#FAEBFF;
+	margin-left:1px;
+	margin-right:1px;
+	margin-bottom:2px;
+	font-size:12px;
+	
+}
+.holiday {	
+	position:relative;
+	color: red;
+	font-weight: bold;
+}
+h3 {
+	margin : 10px auto;
+	
+}
+.nextMonthDate{
+	color: #8C8C8C;
+}
+.prevMonthDate{
+	color: #8C8C8C;
+}
