@@ -24,11 +24,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void join(UserVO userVO) throws Exception {
+	public boolean join(UserVO userVO) throws Exception {
+		boolean success;
 		try{			
-			userDAO.Join(userVO);			
+			success = userDAO.Join(userVO);	
+			
 		} catch(Exception e){
 			throw new Exception();
-		}		
+		}
+		return success;
+	}
+
+	@Override
+	public int idCheck(String id) {
+		int count = 0;
+		count = userDAO.idCheck(id);
+		return count;
 	}
 }

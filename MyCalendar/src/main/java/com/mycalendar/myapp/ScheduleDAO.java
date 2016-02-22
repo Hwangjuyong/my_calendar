@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 import org.springframework.stereotype.Component;
 
+import com.ibm.icu.util.ChineseCalendar;
 
 
 @Component
@@ -16,6 +17,8 @@ public class ScheduleDAO {
 		private Connection conn = null;
 		private PreparedStatement stmt = null;
 		private ResultSet rs = null;
+		
+		private static int lunar_lastDate=0;
 		
 		private final String ADD_SCHEDULE
 		="insert into calendar_ex "
@@ -34,9 +37,12 @@ public class ScheduleDAO {
 		private final String GET_DDAY
 		="select * from calendar_ex where id=? and dday=?";
 		
-		private final int[] M_LIST={31,31,28,31,30,31,30,31,31,30,31,30,31,31}; 
-		private final int[] M_LEAP_LIST={31,31,29,31,30,31,30,31,31,30,31,30,31,31};
-				
+		private final int[] M_LIST=new int[]{31,31,28,31,30,31,30,31,31,30,31,30,31,31}; 
+		private final int[] M_LEAP_LIST=new int[]{31,31,29,31,30,31,30,31,31,30,31,30,31,31};
+		private static String[] solarArr = new String[]{"0101", "0301", "0505", "0606", "0815","1003","1009", "1225"};
+		private static String[] solarArr_name = new String[]{"신정","3.1절","어린이날","현충일","광복절","개천절","한글날","크리스마스"};
+	    private static String[] lunarArr = new String[]{"0101", "0102", "0408", "0814", "0815", "0816"};
+	    private static String[] lunarArr_name= new String[]{"설날","설날연휴","부처님오신날","추석연휴","추석","추석연휴"};		
 		//해당하는 년 월의 달력을 출력하기위한 정보 객체 반환
 		public CalendarVO getCalendarData(int year, int month){
 			
@@ -347,76 +353,101 @@ public class ScheduleDAO {
 			return dDayList;			
 		}
 		
-		// 양력 공휴일을 출력하기 위한 메서드	
+		// 공휴일을 출력하기 위한 메서드	
 		public ArrayList<HolidayVO> getHolidaySchedule(CalendarVO vo){
 			ArrayList<HolidayVO> holidayList=new ArrayList<HolidayVO>();
-			HolidayVO holidayVO = null;
-			switch(vo.getMonth()){
-			case 1:
-				holidayVO = new HolidayVO();
-				holidayVO.setHolDate(1);
-				holidayVO.setHolName("신정");
-				holidayList.add(holidayVO);
-				break;
-			case 2:
-				
-				break;
-			case 3:
-				holidayVO = new HolidayVO();
-				holidayVO.setHolDate(1);
-				holidayVO.setHolName("삼일절");
-				holidayList.add(holidayVO);
-				break;
-			case 4:
-				
-				break;
-			case 5:
-				holidayVO = new HolidayVO();
-				holidayVO.setHolDate(5);
-				holidayVO.setHolName("어린이날");
-				holidayList.add(holidayVO);
-				break;
-			case 6:
-				holidayVO = new HolidayVO();
-				holidayVO.setHolDate(6);
-				holidayVO.setHolName("현충일");
-				holidayList.add(holidayVO);
-				break;
-			case 7:
-				
-				break;
-			case 8:
-				holidayVO = new HolidayVO();
-				holidayVO.setHolDate(15);
-				holidayVO.setHolName("광복절");
-				holidayList.add(holidayVO);
-				break;
-			case 9:
-				
-				break;
-			case 10:
-				holidayVO = new HolidayVO();
-				holidayVO.setHolDate(3);
-				holidayVO.setHolName("개천절");
-				holidayList.add(holidayVO);
-				holidayVO = new HolidayVO();
-				holidayVO.setHolDate(9);
-				holidayVO.setHolName("한글날");
-				holidayList.add(holidayVO);
-				break;
-			case 11:
-				
-				break;
-			case 12:
-				holidayVO = new HolidayVO();
-				holidayVO.setHolDate(25);
-				holidayVO.setHolName("크리스마스");
-				holidayList.add(holidayVO);
-				break;				
+			int year = vo.getYear();
+			int month = vo.getMonth();
+			int lastDate = vo.getLastDate();
 			
-			}			
-			
+			HolidayVO solar_holidayVO = null;
+			HolidayVO lunar_holidayVO = null;	
+			for(int date=1;date<=lastDate;date++){					
+				StringBuilder sb = new StringBuilder();
+				sb.append(String.format("%02d", month));
+				sb.append(String.format("%02d", date));
+					
+				String holName= solarCheckOut(sb.toString());
+				if(!holName.equals("not")){
+					solar_holidayVO=new HolidayVO();
+					solar_holidayVO.setHolName(holName);
+					solar_holidayVO.setHolDate(date);
+					holidayList.add(solar_holidayVO);
+				}										
+				
+				String lunar = convertSolarToLunar(year,month,date);
+				holName = lunarCheckOut(lunar);
+				if(!holName.equals("not")){
+					lunar_holidayVO=new HolidayVO();
+					lunar_holidayVO.setHolName(holName);
+					lunar_holidayVO.setHolDate(date);
+					holidayList.add(lunar_holidayVO);
+				}
+			}
 			return holidayList;
+		}
+		
+		//양력날짜로 음력날짜를 구하는 메서드
+		 public static String convertSolarToLunar(int year, int month, int date){
+				ChineseCalendar cc = new ChineseCalendar();
+		        Calendar cal = Calendar.getInstance();
+		         
+		        cal.set(Calendar.YEAR, year);
+		        cal.set(Calendar.MONTH, month-1);
+		        cal.set(Calendar.DAY_OF_MONTH, date);
+		         
+		        cc.setTimeInMillis(cal.getTimeInMillis());
+		         
+		        int y = cc.get(ChineseCalendar.EXTENDED_YEAR) - 2637;
+		        int m = cc.get(ChineseCalendar.MONTH) + 1;
+		        int d = cc.get(ChineseCalendar.DAY_OF_MONTH);
+		        lunar_lastDate = cc.getActualMaximum(ChineseCalendar.DAY_OF_MONTH);
+		       
+		        StringBuffer ret = new StringBuffer();
+		        ret.append(String.format("%04d", y));
+		        ret.append(String.format("%02d", m));
+		        ret.append(String.format("%02d", d));
+		         
+		        return ret.toString();		
+			}
+		
+		// 음력날짜가 공휴일인지 확인하고 맞으면 해당공휴일의 이름을 반환 아닐경우 not
+		public static String lunarCheckOut(String lunar){
+			String holName="not";
+			String str = lunar.substring(4);
+			int year = Integer.parseInt(lunar.substring(0,4));
+			int month = Integer.parseInt(lunar.substring(4,6))-1;
+			int date = Integer.parseInt(lunar.substring(6));		
+		
+			for(int i=0; i<lunarArr.length;i++){
+				if(str.equals(lunarArr[i])){					
+					holName = lunarArr_name[i];
+					return holName;
+				}			
+			}
+		
+			if(lunar.substring(4, 6).equals("12")){
+				ChineseCalendar chinaCal = new ChineseCalendar();
+				chinaCal.set(year, month, date);			
+				
+				if(Integer.parseInt(lunar.substring(6))==lunar_lastDate){
+					holName="설날연휴";
+				}
+			}
+			return holName;
+		}
+		
+		// 양력날짜가 공휴일인지 확인하고 맞으면 해당공휴일의 이름을 반환 아닐경우 not
+		public static String solarCheckOut(String solar){
+			String holName="not";										
+				
+			for(int i=0; i<solarArr.length;i++){
+				if(solar.equals(solarArr[i])){							
+					holName = solarArr_name[i];
+					return holName;
+				}			
+			}					
+			return holName;
 		}
 		
 }

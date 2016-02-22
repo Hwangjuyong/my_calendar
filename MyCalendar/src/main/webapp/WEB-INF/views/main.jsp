@@ -24,7 +24,7 @@
 <html>
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-		<script src=".js/jquery.xdomainajax.js"></script>
+		<script src="./js/jquery.xdomainajax.js"></script>
 		<script src="./js/weather.js"></script>
 		<link href="./css/main.css" type="text/css" rel="stylesheet">
 		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">

@@ -1,9 +1,11 @@
 package com.mycalendar.myapp;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -29,7 +31,7 @@ public class UserController {
 	public String join(UserVO userVO) throws Exception{
 		userService.join(userVO);
 		
-		return "loginForm";					
+		return "loginForm";
 	}	
 	
 	@RequestMapping(params="method=logout")
@@ -46,5 +48,13 @@ public class UserController {
 	public String joinForm() {
 		
 		return "joinForm";
+	}
+	@RequestMapping(params="method=id")
+	public String idCheck(HttpServletRequest request, Model model) {
+		String id = request.getParameter("id");
+		int count = 0;
+		count = userService.idCheck(id);
+		model.addAttribute("count", count);
+		return "idCheck";
 	}
 }

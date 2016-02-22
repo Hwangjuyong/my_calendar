@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>회원가입_MyCalendar</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <style type="text/css">
 #bg{
   background-image: url("http://image.shutterstock.com/z/stock-photo-mix-of-office-supplies-and-gadgets-on-a-wooden-desk-background-view-from-above-251385121.jpg");
@@ -16,7 +17,7 @@
   background: rgb(34,34,34); /* for IE */
   background: rgba(34,34,34,0.75);
   width:400px; 
-  height:400px;
+  height:450px;
   margin: 200px auto;
 }
 table{
@@ -58,7 +59,10 @@ input[type="email"], input[type="password"], input[type="text"]{
 			<td colspan="2"><h2>Join Us!</h2></td>
 		</tr>
 		<tr>			
-			<td><input type="email" name="id" placeholder="email address" required autofocus></td>
+			<td><input type="email" name="id" id="id" placeholder="email address" required autofocus></td>
+		</tr>
+		<tr>
+			<td id="message"></td>
 		</tr>
 		<tr>
 			<td><input type="password" name="password" placeholder="password" required></td>
@@ -75,10 +79,30 @@ input[type="email"], input[type="password"], input[type="text"]{
 		<tr>
 			<td><a href="javascript:history.back();">back</a></td>
 		</tr>
+		
 	</table>
 	</form>
     </div>
 <script>
+$(document).ready(function(){
+	$('#id').focusout(function(){	
+		var id = document.joinform.id.value;
+		var emailCheck = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+		if(!id){		
+			$('#message').html("email주소는 필수항목입니다!");
+			return;
+		}else if(emailCheck.test(id)){		
+			$.post('user.do?method=id',
+				{id: id},
+				function(data){
+				$('#message').html(data);
+				})
+		}else{
+			$('#message').html('올바른 형식의 email이 아닙니다.');
+		}
+})
+})
+
 function check(){
 	var id = document.joinform.id.value;
 	var pw1=document.joinform.password.value;
@@ -97,10 +121,8 @@ function check(){
 		return;
 	}
 	
-	document.joinform.submit();
-	
-	
-}    
+	document.joinform.submit();	
+}
 </script>   
 </body>
 </html>

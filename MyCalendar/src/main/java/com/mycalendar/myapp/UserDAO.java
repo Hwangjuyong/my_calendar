@@ -14,6 +14,7 @@ public class UserDAO {
 	
 	private final String USER_SEARCH = "select * from calendar_user where id=? and password=?";
 	private final String USER_JOIN = "insert into calendar_user values(?, ?, ?)";
+	private final String ID_CHECK = "select COUNT(*) as count from calendar_user where id=?";
 	public UserVO login(UserVO userVO){
 		UserVO vo = null;
 		try{
@@ -55,5 +56,24 @@ public class UserDAO {
 		} finally {
 			JDBCUtil.closeResource(stmt, conn);
 		}
+	}
+	public int idCheck(String id){
+		int count=0;
+		try{
+			conn = JDBCUtil.getConnection();
+			stmt = conn.prepareStatement(ID_CHECK);
+			stmt.setString(1, id);
+			rs = stmt.executeQuery();
+			rs.next();
+			count = rs.getInt("count");
+			
+		} catch(Exception e){
+			e.printStackTrace();
+			
+		} finally {
+			JDBCUtil.closeResource(rs, stmt, conn);
+		}
+		
+		return count;
 	}
 }
