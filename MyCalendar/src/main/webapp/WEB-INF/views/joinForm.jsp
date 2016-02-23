@@ -51,10 +51,18 @@ $(document).ready(function(){
 			return;
 		}
 		else {		
-			$.post('user.do?method=id',
-				{id: id},
+			$.getJSON('user.do?method=id',{id: id},
 				function(data){
-				$('#message').html(data);
+					$(data).each(function(index,item){
+					var output = item.count;
+					if(output=="0"){
+						$('#message').html('사용가능한 email입니다');
+						$(":submit").attr({"usable":"true"});
+					}else{
+						$('#message').html('이미 사용중인 email입니다!');
+						$(":submit").attr({"disabled":"true"});
+					}
+				})
 				})
 		}
 })

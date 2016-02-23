@@ -94,4 +94,13 @@ public class ScheduleController {
 		return "updateForm";
 		
 	}
+	@RequestMapping(params="method=updateSchedule")
+	public String UpdateSchedule(ScheduleVO scheduleVO,HttpServletRequest request,HttpSession session) throws Exception{
+		UserVO userVO = (UserVO)session.getAttribute("vo");
+		
+		scheduleService.updateSchedule(scheduleVO,userVO.getId());
+		
+		return "redirect:/schedule.do?method=main";		
+	}
+	
 }

@@ -11,4 +11,5 @@ public interface ScheduleService {
 	public void deleteSchedule(String content_id);
 	public ArrayList<HolidayVO> getHolidayList(CalendarVO calendarVO);
 	public ArrayList<DDayVO> getDDayList(String id);
+	public void updateSchedule(ScheduleVO scheduleVO,String id);
 }

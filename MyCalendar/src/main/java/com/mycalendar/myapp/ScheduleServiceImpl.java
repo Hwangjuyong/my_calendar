@@ -68,6 +68,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return dDayList;
 	}
 
+	@Override
+	public void updateSchedule(ScheduleVO scheduleVO,String id) {
+		scheduleDAO.updateSchedule(scheduleVO,id);
+		
+	}
+
 	
 	
 

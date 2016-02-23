@@ -19,10 +19,12 @@
 	<input type="hidden" name="s_year" value="<%=scheduleVO.getS_year() %>">
 	<input type="hidden" name="s_month" value="<%=scheduleVO.getS_month() %>">
 	<input type="hidden" name="s_date" value="<%=scheduleVO.getS_date() %>">
+	<input type="hidden" name="content_id" value="<%=scheduleVO.getContent_id()%>">
 	
 	<table>
 		<tr>
 			<td colspan="4"><%=scheduleVO.getS_year() %>년 <%=scheduleVO.getS_month() %>월 <%=scheduleVO.getS_date() %>일</td>
+		
 		</tr>
 		<tr>
 			<td colspan="4">일정 수정하기</td>
@@ -76,9 +78,7 @@
 			%>
 						><%=str %></option>
 			<%
-					}
-			%>
-			<%				
+					}						
 				}
 			%>
 				<%
@@ -198,6 +198,7 @@
 				<option value="매년">매년</option>				
 			
 			</select></td>
+			
 		</tr>
 		<tr>
 			<td colspan="4"><a href="javascript:updateForm.submit();">일정등록</a></td>

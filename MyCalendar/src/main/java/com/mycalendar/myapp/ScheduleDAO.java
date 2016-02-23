@@ -37,6 +37,10 @@ public class ScheduleDAO {
 		private final String GET_DDAY
 		="select * from calendar_ex where id=? and dday=?";
 		
+		private final String UPDATE_SCHEDULE
+		="update calendar_ex set id=?, starttime=?,endtime=?,allday=?,subject=?,content=?,"
+				+ "s_year=?,s_month=?,s_date=?,e_year=?,e_month=?,e_date=?,category=?,repetition=?, dday=? where content_id=? ";
+		
 		private final int[] M_LIST=new int[]{31,31,28,31,30,31,30,31,31,30,31,30,31,31}; 
 		private final int[] M_LEAP_LIST=new int[]{31,31,29,31,30,31,30,31,31,30,31,30,31,31};
 		private static String[] solarArr = new String[]{"0101", "0301", "0505", "0606", "0815","1003","1009", "1225"};
@@ -172,6 +176,38 @@ public class ScheduleDAO {
 				stmt.setString(13, scheduleVO.getCategory());
 				stmt.setString(14, scheduleVO.getRepetition());
 				stmt.setString(15, scheduleVO.getdDay());
+				
+				stmt.executeUpdate();
+			}catch(Exception e){
+				e.printStackTrace();
+				
+			}finally{
+				JDBCUtil.closeResource(stmt, conn);
+			}
+			
+		}
+		//일정 수정 메서드
+		public void updateSchedule(ScheduleVO scheduleVO, String id){
+		
+			try{
+				conn = JDBCUtil.getConnection();
+				stmt = conn.prepareStatement(UPDATE_SCHEDULE);
+				stmt.setString(1, id);
+				stmt.setString(2, scheduleVO.getStartTime());
+				stmt.setString(3, scheduleVO.getEndTime());
+				stmt.setString(4, scheduleVO.getAllday());
+				stmt.setString(5, scheduleVO.getSubject());
+				stmt.setString(6, scheduleVO.getContent());
+				stmt.setInt(7, scheduleVO.getS_year());
+				stmt.setInt(8, scheduleVO.getS_month());
+				stmt.setInt(9, scheduleVO.getS_date());
+				stmt.setInt(10, scheduleVO.getE_year());
+				stmt.setInt(11, scheduleVO.getE_month());
+				stmt.setInt(12, scheduleVO.getE_date());
+				stmt.setString(13, scheduleVO.getCategory());
+				stmt.setString(14, scheduleVO.getRepetition());
+				stmt.setString(15, scheduleVO.getdDay());			
+				stmt.setString(16, scheduleVO.getContent_id());
 				
 				stmt.executeUpdate();
 			}catch(Exception e){
