@@ -21,33 +21,43 @@
 }
 #info{
 	margin : 1px;
-	border : 1px solid #7F7F7F;
+	box-sizing: border-box;
+    border: 2px solid #000081;
+    border-radius: 4px;
 	width : 98%;
 	height : 80px;	
 	text-align:center;
 }
 #mini{
 	margin : 1px;
-	border : 1px solid #7F7F7F;
+	box-sizing: border-box;
+    border: 2px solid #000081;
+    border-radius: 4px;
 	width : 98%;
 	height : 80px;
 }
 #weather{
 	margin : 1px;
-	border : 1px solid #7F7F7F;
+	box-sizing: border-box;
+    border: 2px solid #000081;
+    border-radius: 4px;
 	width : 98%;
 	height : 80px;
 }
 #detail{
 	margin : 1px;
-	border : 1px solid #7F7F7F;
+	box-sizing: border-box;
+    border: 2px solid #000081;
+    border-radius: 4px;
 	width : 98%;
 	height: 100%;
 }
 #calendar{		
 	height : 100%;
 	margin : 1px auto;
-	border :1px dotted #7F7F7F;
+	box-sizing: border-box;
+    border: 2px solid #000081;
+    border-radius: 4px;
 	display : flex;
 }
 .clear{
@@ -58,7 +68,7 @@
 .day_red, .day_black, .day_blue, .date, .today, .date_not{
 	float:left;
 	flex:1;
-	border: 1px solid #7F7F7F;
+	border: 1px solid #000081;
 	margin: 1px;
 }
 .date_not{

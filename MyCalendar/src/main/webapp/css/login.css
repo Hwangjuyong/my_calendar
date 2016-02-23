@@ -1,0 +1,52 @@
+#bg{
+  background-image: url("http://image.shutterstock.com/z/stock-photo-mix-of-office-supplies-and-gadgets-on-a-wooden-desk-background-view-from-above-251385121.jpg");
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+#input {
+  text-align:center; 
+  background: rgb(34,34,34); /* for IE */
+  background: rgba(34,34,34,0.75);  
+  width:400px; 
+  height:100%;
+  margin: 200px auto;
+}
+table{
+	margin:auto;
+}
+
+h2, td { text-align: center; color: #fefefe; font-weight: normal; }
+
+a{
+	text-decoration: none;
+	color: white;
+	font-size: 20px;
+}
+tr{
+	width: 110px;
+	font-size: 15px;
+}
+td{
+	height: 45px;
+	font-size: 15px;
+	}
+input[type="password"],input[type="text"],input[type="email"]{
+	
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 18px;  
+    padding: 12px 20px 12px 10px;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-size: 25px;
+}

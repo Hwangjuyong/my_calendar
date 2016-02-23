@@ -149,7 +149,7 @@
 
 <div id="wrap">	
 	<div id="info">
-		<h3><%=userVO.getName() %>´Ô È¯¿µÇÕ´Ï´Ù.^^</h3>
+		<h3><%=userVO.getName() %>´Ô È¯¿µÇÕ´Ï´Ù.</h3>
 		<a href="user.do?method=logout">·Î±×¾Æ¿ô</a>
 	</div>	
 	<div id="mini">
@@ -240,9 +240,8 @@ $('.box').bind({
 		$(this).css({'overflow':"hidden"});
 	}
 })
-})
-	
-//getLocation();
+})	
+getLocation();
 </script>
 </body>
 </html>

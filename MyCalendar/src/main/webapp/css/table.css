@@ -19,12 +19,14 @@ input[type="text"]{
 }
 textarea{
 	width: 100%;
+	padding: 8px 8px;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
 	height: 160px;
 	margin: 0px auto;
 	font-size: 14px;
+	resize: none;
 }
 input[type="number"]{
 	width: 50px;
